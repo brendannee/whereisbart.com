@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Where is BART?</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/leaflet.css" />
+  <!--[if lte IE 8]>
+      <link rel="stylesheet" href="css/leaflet.ie.css" />
+  <![endif]-->
+</head>
+
+<body>
+
+	<div id="wrapper">
+		<div id="header">
+			<div class="logo"><a href="http://whereisbart.com"><img src="images/whereisbartlogo.png" alt="Where is BART?" /></a></div>	
+		</div>
+		<div id="bart_train"><div class="middle"></div><div class="end"></div></div>
+		<div id="map_wrapper">
+			<div id="legend">
+				<ul>
+					<li><span class="legendname">BART Station</span></li>
+					<li><img src="images/icon_FRMT.png" alt="Fremont Bound Train" height="20" width="20" /><span class="legendname">Fremont Train</span></li>
+					<li><img src="images/icon_DUBL.png" alt="Dublin/Pleasanton Bound Train" height="20" width="20" /><span class="legendname">Dublin/Pleasanton Train</span></li>
+					<li><img src="images/icon_PITT.png" alt="Pittsburg/Bay Point Bound Train" height="20" width="20" /><span class="legendname">Pittsburg/Bay Point Train</span></li>
+					<li><img src="images/icon_RICH.png" alt="Richmond Bound Train" height="20" width="20" /><span class="legendname">Richmond Train</span></li>
+					<li><img src="images/icon_24TH.png" alt="24th St &amp; Mission Bound Train" height="20" width="20" /><span class="legendname">24th St &amp; Mission Train</span></li>
+					<li><img src="images/icon_DALY.png" alt="Daly City Bound Train" height="20" width="20" /><span class="legendname">Daly City Train</span></li>
+					<li><img src="images/icon_MLBR.png" alt="Millbrae Bound Train" height="20" width="20" /><span class="legendname">Millbrae Train</span></li>
+					<li><img src="images/icon_SFIA.png" alt="SFO Airport Bound Train" height="20" width="20" /><span class="legendname">SFO Airport Train</span></li>
+				</ul>
+				<div id="status">
+					<div id="last_updated"></div>
+          <div id="clock">Next update in <span>15</span> seconds</div>
+					<div id="disclaimer">* Note that this map displays estimated train locations based off of <a href="http://bart.gov/schedules/developers/etas.aspx">real time info provided by BART</a></div>
+				</div>
+			</div>
+      <footer>
+      <a href="https://github.com/brendannee/whereisbart.com">Source on Github</a> | Site by <a href="http://bn.ee">Brendan Nee</a>
+      </footer>
+			<div id="map"></div>
+		</div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="js/jquery.xml2json.js"></script>
+  <script src="js/leaflet.js"></script>
+  <script src="js/links.js"></script>
+  <script src="js/stations.js"></script>
+  <script src="js/main.js"></script>
+
+
+</body>
+</html>

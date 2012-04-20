@@ -1,0 +1,144 @@
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, san-serif;
+  font-weight: 200;
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+a {
+  text-decoration:none;
+  color: #333;
+}
+
+a:hover {
+  text-decoration:underline;
+}
+
+/* HEADER */
+
+#header {
+  margin:5px;
+  height:70px;
+  color:#555555;
+}
+
+#header a {
+  text-decoration:none;
+  color: #999999;
+}
+
+#header a:hover {
+  text-decoration:underline;
+}
+
+#header .logo {
+  width: 150px;
+  height:70px;
+  float:left;
+}
+
+#header .logo img {
+	border:0;
+}
+
+#bart_train {
+  clear:both;
+  height:30px;
+}
+
+#bart_train .middle {
+  width:70%;
+  height:30px;
+  float:left;
+  background: #FFFFFF url(../images/bart_middle.png) repeat-x;
+  background-position: top right;
+}
+
+#bart_train .end{
+  height:30px;
+  width:175px;
+  float:left;
+  background: #FFFFFF url(../images/bart_front.png) repeat-x;
+  background-position: top right;
+}
+
+/* MAP */
+
+#map_wrapper {
+	border-top: solid 5px #999999;
+	border-bottom: solid 5px #999999;
+	position:relative;
+	background: #eeeeee;
+  min-height:200px;
+}
+
+#map {
+	margin:0 0 0 250px;
+	height:75%;
+}
+
+/* LEGEND */
+#legend {
+  color:#666666;
+  font-size:12px;
+  width:250px;
+  position:absolute;
+}
+
+#legend ul {
+  padding:2px;
+  margin:0;
+}
+
+#legend ul li {
+  list-style-type: none;
+  float:left;
+  clear:both;
+  padding:3px 2px;
+}
+
+#legend ul li input{
+	float:left;
+	margin-right:10px;
+}
+
+#legend ul li img{
+  float:left;
+}
+
+#legend ul li .legendname {
+  margin:4px 15px 4px 3px;
+  float:left;
+}
+
+#status{
+	clear:both;
+	padding:15px 5px;
+}
+
+#last_updated{
+	padding-top: 5px;
+}
+
+#clock{
+	padding-top: 5px;
+}
+
+#disclaimer{
+  padding-top: 15px;
+}
+
+/* FOOTER */
+footer {
+  color:#999999;
+  font-size:12px;
+  position:absolute;
+  bottom:0;
+  width:250px;
+  padding:5px;
+}
