@@ -197,23 +197,23 @@ var links = [
 },
 {
     id: 28
-  , start: 'DUBL'
-  , end: 'WDUB'
+  , start: 'WDUB'
+  , end: 'DUBL'
   , color: ['004cff']
   , time: 2
   , endpoint: 'North'
 },
 {
     id: 44
-  , start: 'WDUB'
-  , end: 'CAST'
+  , start: 'CAST'
+  , end: 'WDUB'
   , color: ['004cff']
   , time: 11
 },
 {
     id: 29
-  , start: 'CAST'
-  , end: 'BAYF'
+  , start: 'BAYF'
+  , end: 'CAST'
   , color: ['004cff']
   , time: 5
 },

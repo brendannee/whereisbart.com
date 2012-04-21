@@ -1,17 +1,19 @@
 var southbound
   , northbound
   , map
-  , updateTime
+  , updateTime = 15000
   , trains
   , icons = {}
+  , endpoints = ['DALY','FRMT','DUBL','PITT','24TH','MLBR','SFIA','RICH'];
 
 
-function sizeWindow (){
+
+function sizeWindow() {
   $('#map').height($(window).height() - 120);
 }
 
 
-function buildTimes () {
+function buildTimes() {
   northbound = {};
   southbound = {};
   links.forEach(function (link) {
@@ -31,7 +33,7 @@ function buildTimes () {
 }
 
 
-function setupMap(){
+function setupMap() {
   //create map
   map = new L.Map('map');
   var layer = new L.TileLayer('http://mt1.google.com/vt/lyrs=m@121,transit|vm:1&hl=en&opts=r&x={x}&y={y}&z={z}', {
@@ -52,7 +54,7 @@ function setupMap(){
   icons.station = new station_icon();
 
   //add stations
-  $.each(stations, function(i, station){
+  $.each(stations, function(i, station) {
     var marker = new L.Marker(new L.LatLng(station.lat, station.lng), {
       icon: icons.station, 
       zIndexOffset:-10
@@ -60,10 +62,7 @@ function setupMap(){
     map.addLayer(marker);
   });
 
-
-
-  var endpoints = ['DALY','FRMT','DUBL','PITT','24TH','MLBR','SFIA','RICH'];
-  endpoints.forEach(function(endpoint){
+  endpoints.forEach(function(endpoint) {
     var icon = L.Icon.extend({
       iconUrl: 'images/icon_' + endpoint + '.png',
       shadowUrl: 'images/icon_shadow.png',
@@ -78,13 +77,16 @@ function setupMap(){
 }
 
 
-function getBART () {
-  $.get('http://api.bart.gov/api/etd.aspx?cmd=etd&orig=ALL&key=MW9S-E7SL-26DU-VV8V&callback=?', processBART);
+function getBART() {
+  var BARTApi = 'MW9S-E7SL-26DU-VV8V';
+  $.get('http://api.bart.gov/api/etd.aspx?cmd=etd&orig=ALL&key=' + BARTApi + '&callback=?', processBART);
 }
 
-function processBART (xml) {
+function processBART(xml) {
   //convert to JSON
   data = $.xml2json(xml);
+
+  updateTime = 15000;
 
   removeTrains();
 
@@ -93,18 +95,17 @@ function processBART (xml) {
   $('#last_updated').html('Data as of ' + data.time); 
 
   var results = {};
-  data.station.forEach(function (station) {
+  data.station.forEach(function(station) {
       var destinations = [];
       if (!(station.etd instanceof Array)) {
         station.etd = [ station.etd ];
       }
-      station.etd.forEach(function (destination) {
+      station.etd.forEach(function(destination) {
         var estimates = [];
-        var direction;
         if (! (destination.estimate instanceof Array)) {
           destination.estimate = [ destination.estimate ];
         }
-        destination.estimate.forEach(function (estimate) {
+        destination.estimate.forEach(function(estimate) {
           //check if endpoint
           if(
              (estimate.direction == 'North' && !southbound[station.abbr]) ||
@@ -112,7 +113,6 @@ function processBART (xml) {
           ) {
             //its an endpoint
           } else {
-             
             //check if between adjacent link
             var threshold = (estimate.direction == 'North') ? 
               southbound[station.abbr].time :
@@ -124,7 +124,6 @@ function processBART (xml) {
             var time = parseInt(estimate.minutes, 10);
 
             if(time <= threshold) {
-              direction = estimate.direction;
               estimates.push(time);
               var position = findTrain(station.abbr, next, time, threshold);
               var marker = new L.Marker(new L.LatLng(position.lat, position.lng), {
@@ -132,7 +131,6 @@ function processBART (xml) {
               var markerText = '<b>' + destination.destination + ' Bound</b><br>' +
                 'Next Station: ' + stations[station.abbr].name + ' in ' + time + ' minutes';
               marker.bindPopup(markerText);
-              
 
               var train = {
                   direction: estimate.direction
@@ -146,12 +144,13 @@ function processBART (xml) {
             }
           }
         });
-
-        destinations.push({
-            destination: destination.abbreviation
-          , estimates: estimates
-          , direction: direction
-        });
+        if(estimates.length){
+          destinations.push({
+              destination: destination.abbreviation
+            , estimates: estimates
+            , direction: estimates[0].direction
+          });
+        }
       });
 
       results[station.abbr] = {
@@ -167,7 +166,7 @@ function processBART (xml) {
  * Finds postion of trains.
  */
 
-function findTrain (toStation, fromStation, time, threshold) {
+function findTrain(toStation, fromStation, time, threshold) {
   toStation = stations[toStation];
   fromStation = stations[fromStation];
 
@@ -183,21 +182,22 @@ function findTrain (toStation, fromStation, time, threshold) {
 }
 
 
-function drawTrains(){
-  trains.forEach(function(train){
-		map.addLayer(train.marker);
-  });
-}
-
-
-function removeTrains(){
+function drawTrains() {
   if(trains){
-    trains.forEach(function(train){
-      map.removeLayer(train.marker);
+    trains.forEach(function(train) {
+      map.addLayer(train.marker);
     });
   }
 }
 
+
+function removeTrains() {
+  if(trains){
+    trains.forEach(function(train) {
+      map.removeLayer(train.marker);
+    });
+  }
+}
 
 
 function updateClock() {
@@ -213,11 +213,10 @@ function updateClock() {
  */
 $(document).ready(function() {
   sizeWindow();
-  setupMap();
   window.onResize = sizeWindow;
+  setupMap();
   buildTimes();
   getBART();
-  updateTime = 15000;
   setInterval(updateClock, 1000);
   setInterval(getBART, 15000);
 });
