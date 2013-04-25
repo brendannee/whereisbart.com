@@ -1,6 +1,6 @@
 # WhereisBART.com
 
-Whereisbart.com is a live visualization of the estimated positions of all BART ([Bay Area Rapid Transit](http://bart.gov)) trains.  The positions are estimated using realtime arrival predictions from the [BART API](http://www.bart.gov/schedules/developers/api.aspx).  The estimated travel time between all stations was determined and trains are plotted on a map.  The map assuming normal operating conditions - any delays in the BART system will cause the estimated positions to be inaccurate.
+Whereisbart.com is a live visualization of the estimated positions of all BART ([Bay Area Rapid Transit](http://bart.gov)) trains.  The positions are estimated using realtime arrival predictions from the [BART API](http://www.bart.gov/schedules/developers/api.aspx).  The estimated travel time between all stations was determined and trains are plotted on a map.  The map assumes normal operating conditions - any delays in the BART system will cause the estimated positions on the map to be inaccurate.
 
 The map layer is the [Google Transit layer](http://blinktag.com/google-transit-layer-through-google-maps-api/).
 
