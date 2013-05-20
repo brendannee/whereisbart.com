@@ -7,7 +7,6 @@ var southbound
   , endpoints = ['DALY','FRMT','DUBL','PITT','24TH','MLBR','SFIA','RICH'];
 
 
-
 function sizeWindow() {
   $('#map').height($(window).height() - 120);
 }
@@ -45,11 +44,13 @@ function setupMap() {
 
   //create markers
   var station_icon = L.Icon.extend({
-    iconUrl: 'images/icon_bart.png',
-    shadowUrl: 'images/blank.png',
-    iconSize: new L.Point(32, 32),
-    iconAnchor: new L.Point(16, 16),
-    popupAnchor: new L.Point(0, -3)
+    options: {
+      iconUrl: 'images/icon_bart.png',
+      shadowUrl: 'images/blank.png',
+      iconSize: new L.Point(32, 32),
+      iconAnchor: new L.Point(16, 16),
+      popupAnchor: new L.Point(0, -3)
+    }
   });
   icons.station = new station_icon();
 
@@ -64,12 +65,15 @@ function setupMap() {
 
   endpoints.forEach(function(endpoint) {
     var icon = L.Icon.extend({
-      iconUrl: 'images/icon_' + endpoint + '.png',
-      shadowUrl: 'images/icon_shadow.png',
       iconSize: new L.Point(32, 32),
-      shadowSize: new L.Point(36, 25),
-      iconAnchor: new L.Point(16, 16),
-      popupAnchor: new L.Point(0, -3)
+      options: {
+        iconUrl: 'images/icon_' + endpoint + '.png',
+        shadowUrl: 'images/icon_shadow.png',
+        iconSize: new L.Point(32, 32),
+        shadowSize: new L.Point(36, 25),
+        iconAnchor: new L.Point(16, 16),
+        popupAnchor: new L.Point(0, -3)
+      }
     });
     icons[endpoint] = new icon();
   });
