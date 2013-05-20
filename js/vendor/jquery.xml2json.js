@@ -1,9 +1,7 @@
 /*
- ### jQuery XML to JSON Plugin v1.1 - 2008-07-01 ###
+ ### jQuery XML to JSON Plugin v1.2 - 2013-02-18 ###
  * http://www.fyneworks.com/ - diego@fyneworks.com
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
+	* Licensed under http://en.wikipedia.org/wiki/MIT_License
  ###
  Website: http://www.fyneworks.com/jquery/xml-to-json/
 *//*
@@ -172,11 +170,11 @@
    //return $(xml)[0];
    var out;
    try{
-    var xml = ($.browser.msie)?new ActiveXObject("Microsoft.XMLDOM"):new DOMParser();
+    var xml = ((!$.support.opacity && !$.support.style))?new ActiveXObject("Microsoft.XMLDOM"):new DOMParser();
     xml.async = false;
    }catch(e){ throw new Error("XML Parser could not be instantiated") };
    try{
-    if($.browser.msie) out = (xml.loadXML(str))?xml:false;
+    if((!$.support.opacity && !$.support.style)) out = (xml.loadXML(str))?xml:false;
     else out = xml.parseFromString(str, "text/xml");
    }catch(e){ throw new Error("Error parsing XML string") };
    return out;

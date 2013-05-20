@@ -65,7 +65,6 @@ function setupMap() {
 
   endpoints.forEach(function(endpoint) {
     var icon = L.Icon.extend({
-      iconSize: new L.Point(32, 32),
       options: {
         iconUrl: 'images/icon_' + endpoint + '.png',
         shadowUrl: 'images/icon_shadow.png',
@@ -87,8 +86,8 @@ function getBART() {
 }
 
 function processBART(xml) {
-  //convert to JSON
-  data = $.xml2json(xml);
+  //parse XML
+  var data = $.xml2json(xml);
 
   updateTime = 15000;
 
@@ -119,11 +118,11 @@ function processBART(xml) {
           } else {
             //check if between adjacent link
             var threshold = (estimate.direction == 'North') ? 
-              southbound[station.abbr].time :
-              northbound[station.abbr].time;
+                southbound[station.abbr].time :
+                northbound[station.abbr].time;
             var next = (estimate.direction == 'North') ? 
-              southbound[station.abbr].next :
-              northbound[station.abbr].next;
+                southbound[station.abbr].next :
+                northbound[station.abbr].next;
 
             var time = parseInt(estimate.minutes, 10);
 
