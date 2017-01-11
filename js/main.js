@@ -35,7 +35,7 @@ function buildTimes() {
 function setupMap() {
   //create map
   map = new L.Map('map');
-  var layer = new L.TileLayer('http://mt1.google.com/vt/lyrs=m@121,transit|vm:1&hl=en&opts=r&x={x}&y={y}&z={z}', {
+  var layer = new L.TileLayer('https://mt1.google.com/vt/lyrs=m@121,transit|vm:1&hl=en&opts=r&x={x}&y={y}&z={z}', {
     attribution: 'Map data &copy;2012 Google',
     maxZoom: 14
 });
@@ -57,7 +57,7 @@ function setupMap() {
   //add stations
   $.each(stations, function(i, station) {
     var marker = new L.Marker(new L.LatLng(station.lat, station.lng), {
-      icon: icons.station, 
+      icon: icons.station,
       zIndexOffset:-10
     });
     map.addLayer(marker);
@@ -82,7 +82,7 @@ function setupMap() {
 
 function getBART() {
   var BARTApi = 'MW9S-E7SL-26DU-VV8V';
-  $.get('http://api.bart.gov/api/etd.aspx?cmd=etd&orig=ALL&key=' + BARTApi + '&callback=?', processBART);
+  $.get('https://api.bart.gov/api/etd.aspx?cmd=etd&orig=ALL&key=' + BARTApi + '&callback=?', processBART);
 }
 
 function processBART(xml) {
@@ -93,12 +93,11 @@ function processBART(xml) {
 
   removeTrains();
 
-  trains = [];
-
-  $('#last_updated').html('Data as of ' + data.time); 
+  $('#last_updated').html('Data as of ' + data.time);
 
   var results = {};
   data.station.forEach(function(station) {
+    console.log(station)
       var destinations = [];
       if (!(station.etd instanceof Array)) {
         station.etd = [ station.etd ];
@@ -117,10 +116,10 @@ function processBART(xml) {
             //its an endpoint
           } else {
             //check if between adjacent link
-            var threshold = (estimate.direction == 'North') ? 
+            var threshold = (estimate.direction == 'North') ?
                 southbound[station.abbr].time :
                 northbound[station.abbr].time;
-            var next = (estimate.direction == 'North') ? 
+            var next = (estimate.direction == 'North') ?
                 southbound[station.abbr].next :
                 northbound[station.abbr].next;
 
@@ -200,6 +199,7 @@ function removeTrains() {
       map.removeLayer(train.marker);
     });
   }
+  trains = [];
 }
 
 
@@ -211,7 +211,7 @@ function updateClock() {
 }
 
 
-/** 
+/**
  * On page load
  */
 $(document).ready(function() {
