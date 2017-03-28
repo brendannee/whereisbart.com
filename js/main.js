@@ -1,11 +1,8 @@
-var southbound
-  , northbound
-  , map
-  , updateTime = 15000
-  , trains
-  , icons = {}
-  , endpoints = ['DALY','FRMT','DUBL','PITT','24TH','MLBR','SFIA','RICH'];
-
+var southbound;
+var northbound;
+var map;
+var updateTime = 15000;
+var trains;
 
 function sizeWindow() {
   $('#map').height($(window).height() - 120);
@@ -38,7 +35,7 @@ function setupMap() {
   var layer = new L.TileLayer('https://mt1.google.com/vt/lyrs=m@121,transit|vm:1&hl=en&opts=r&x={x}&y={y}&z={z}', {
     attribution: 'Map data &copy;2012 Google',
     maxZoom: 14
-});
+  });
   var sf = new L.LatLng(37.779224, -122.313831);
   map.setView(sf, 10).addLayer(layer);
 
@@ -59,7 +56,7 @@ function getBART() {
 }
 
 function processBART(xml) {
-  //parse XML
+  // Parse XML
   var data = $.xml2json(xml);
 
   updateTime = 15000;
@@ -70,7 +67,6 @@ function processBART(xml) {
 
   var results = {};
   data.station.forEach(function(station) {
-    console.log(station)
       var destinations = [];
       if (!(station.etd instanceof Array)) {
         station.etd = [ station.etd ];
@@ -81,14 +77,14 @@ function processBART(xml) {
           destination.estimate = [ destination.estimate ];
         }
         destination.estimate.forEach(function(estimate) {
-          //check if endpoint
-          if(
+          // Check if endpoint
+          if (
              (estimate.direction == 'North' && !southbound[station.abbr]) ||
              (estimate.direction == 'South' && !northbound[station.abbr])
           ) {
-            //its an endpoint
+            // Its an endpoint
           } else {
-            //check if between adjacent link
+            // Check if between adjacent link
             var threshold = (estimate.direction == 'North') ?
                 southbound[station.abbr].time :
                 northbound[station.abbr].time;
@@ -98,7 +94,7 @@ function processBART(xml) {
 
             var time = parseInt(estimate.minutes, 10);
 
-            if(time <= threshold) {
+            if (time <= threshold) {
               estimates.push(time);
               var position = findTrain(station.abbr, next, time, threshold);
               var icon = L.divIcon({
@@ -114,57 +110,58 @@ function processBART(xml) {
               marker.bindPopup(markerText);
 
               var train = {
-                  direction: estimate.direction
-                , destination: destination.abbreviation
-                , station: station.abbr
-                , position: position
-                , time: time
-                , marker: marker
-              }
+                direction: estimate.direction,
+                destination: destination.abbreviation,
+                station: station.abbr,
+                position: position,
+                time: time,
+                marker: marker
+              };
+
               trains.push(train);
             }
           }
         });
-        if(estimates.length){
+        if (estimates.length) {
           destinations.push({
-              destination: destination.abbreviation
-            , estimates: estimates
-            , direction: estimates[0].direction
+            destination: destination.abbreviation,
+            estimates: estimates,
+            direction: estimates[0].direction
           });
         }
       });
 
       results[station.abbr] = {
-          name: station.name
-        , destinations: destinations
+        name: station.name,
+        destinations: destinations
       }
   });
   drawTrains();
 }
 
 
-/**
- * Finds postion of trains.
- */
-
+// Finds postion of trains.
 function findTrain(toStation, fromStation, time, threshold) {
   toStation = stations[toStation];
   fromStation = stations[fromStation];
 
-  if(time == 0){
-    return { lat: toStation.lat, lng: toStation.lng };
+  if (time == 0) {
+    return {
+      lat: toStation.lat,
+      lng: toStation.lng
+    };
   }
 
-  var percent = time/threshold
-    , lat = toStation.lat - ( (toStation.lat - fromStation.lat) * percent )
-    , lng = toStation.lng - ( (toStation.lng - fromStation.lng) * percent );
+  var percent = time / threshold;
+  var lat = toStation.lat - ( (toStation.lat - fromStation.lat) * percent );
+  var lng = toStation.lng - ( (toStation.lng - fromStation.lng) * percent );
 
   return { lat: lat, lng: lng };
 }
 
 
 function drawTrains() {
-  if(trains){
+  if (trains) {
     trains.forEach(function(train) {
       map.addLayer(train.marker);
     });
@@ -173,7 +170,7 @@ function drawTrains() {
 
 
 function removeTrains() {
-  if(trains){
+  if (trains) {
     trains.forEach(function(train) {
       map.removeLayer(train.marker);
     });
@@ -183,16 +180,14 @@ function removeTrains() {
 
 
 function updateClock() {
-  if(updateTime > 0) {
+  if (updateTime > 0) {
     updateTime -= 1000;
     $('#clock span').html(updateTime / 1000);
   }
 }
 
 
-/**
- * On page load
- */
+// On page load
 $(document).ready(function() {
   sizeWindow();
   window.onResize = sizeWindow;

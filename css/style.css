@@ -46,12 +46,12 @@ a:hover {
 	border:0;
 }
 
-#bart_train {
+.bart-train {
   clear:both;
   height:30px;
 }
 
-#bart_train .middle {
+.bart-train .middle {
   width:70%;
   height:30px;
   float:left;
@@ -59,7 +59,7 @@ a:hover {
   background-position: top right;
 }
 
-#bart_train .end{
+.bart-train .end{
   height:30px;
   width:175px;
   float:left;
@@ -69,7 +69,7 @@ a:hover {
 
 /* MAP */
 
-#map_wrapper {
+.map-wrapper {
 	border-top: solid 5px #999999;
 	border-bottom: solid 5px #999999;
 	position:relative;
