@@ -167,6 +167,14 @@ var links = [
   , endpoint: 'North'
 },
 {
+    id: 45
+  , start: 'WARM'
+  , end: 'FRMT'
+  , color: ['00a500']
+  , time: 6
+  , endpoint: 'South'
+},
+{
     id: 24
   , start: 'FRMT'
   , end: 'UCTY'
@@ -315,5 +323,5 @@ var links = [
   , end: 'LAKE'
   , color: ['00a500','004cff']
   , time: 4
-}
+},
 ]
