@@ -82,6 +82,53 @@ a:hover {
 	height:75%;
 }
 
+.station-icon {
+  border: 1px solid #222222;
+  background-color: #199bd8;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 6px;
+  height: 6px;
+}
+
+.train-icon {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #222222;
+  color: #222222;
+  text-align: center;
+  line-height: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  border-radius: 8px;
+  font-size: 10px;
+}
+
+.train-daly-icon,
+.train-24th-icon,
+.train-mlbr-icon,
+.train-sfia-icon {
+  background-color: #9a09cd;
+}
+
+.train-warm-icon,
+.train-frmt-icon {
+  background-color: #00c661;
+}
+
+.train-dubl-icon {
+  background-color: #0f85ff;
+}
+
+.train-pitt-icon,
+.train-phil-icon {
+  background-color: #e7e51c;
+}
+
+.train-rich-icon {
+  background-color: #d51205;
+}
+
 /* LEGEND */
 #legend {
   color:#666666;
@@ -102,34 +149,34 @@ a:hover {
   padding:3px 2px;
 }
 
-#legend ul li input{
-	float:left;
-	margin-right:10px;
+#legend .station-icon {
+  margin: 0 4px;
+  display: inline-block;
 }
 
-#legend ul li img{
-  float:left;
+#legend .train-icon {
+  display: inline-block;
 }
 
 #legend ul li .legendname {
-  margin:4px 15px 4px 3px;
-  float:left;
+  vertical-align: top;
+  margin-left: 8px;
 }
 
-#status{
+#status {
 	clear:both;
 	padding:15px 5px;
 }
 
-#last_updated{
+#last_updated {
 	padding-top: 5px;
 }
 
-#clock{
+#clock {
 	padding-top: 5px;
 }
 
-#disclaimer{
+#disclaimer {
   padding-top: 15px;
 }
 

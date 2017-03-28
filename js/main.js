@@ -42,41 +42,14 @@ function setupMap() {
   var sf = new L.LatLng(37.779224, -122.313831);
   map.setView(sf, 10).addLayer(layer);
 
-  //create markers
-  var station_icon = L.Icon.extend({
-    options: {
-      iconUrl: 'images/icon_bart.png',
-      shadowUrl: 'images/blank.png',
-      iconSize: new L.Point(32, 32),
-      iconAnchor: new L.Point(16, 16),
-      popupAnchor: new L.Point(0, -3)
-    }
-  });
-  icons.station = new station_icon();
-
-  //add stations
+  // Add stations to map
   $.each(stations, function(i, station) {
     var marker = new L.Marker(new L.LatLng(station.lat, station.lng), {
-      icon: icons.station,
+      icon: L.divIcon({className: 'station-icon', iconSize: [6, 6]}),
       zIndexOffset:-10
     });
     map.addLayer(marker);
   });
-
-  endpoints.forEach(function(endpoint) {
-    var icon = L.Icon.extend({
-      options: {
-        iconUrl: 'images/icon_' + endpoint + '.png',
-        shadowUrl: 'images/icon_shadow.png',
-        iconSize: new L.Point(32, 32),
-        shadowSize: new L.Point(36, 25),
-        iconAnchor: new L.Point(16, 16),
-        popupAnchor: new L.Point(0, -3)
-      }
-    });
-    icons[endpoint] = new icon();
-  });
-
 }
 
 
@@ -128,9 +101,15 @@ function processBART(xml) {
             if(time <= threshold) {
               estimates.push(time);
               var position = findTrain(station.abbr, next, time, threshold);
+              var icon = L.divIcon({
+                className: 'train-icon train-' + destination.abbreviation.toLowerCase() + '-icon',
+                html: stations[destination.abbreviation].iconAbbreviation,
+                iconSize: [14, 14]
+              });
               var marker = new L.Marker(new L.LatLng(position.lat, position.lng), {
-                icon: icons[destination.abbreviation]});
-              var markerText = '<b>' + destination.destination + ' Bound</b><br>' +
+                icon: icon
+              });
+              var markerText = '<b>' + destination.destination + ' Bound Train</b><br>' +
                 'Next Station: ' + stations[station.abbr].name + ' in ' + time + ' minutes';
               marker.bindPopup(markerText);
 
