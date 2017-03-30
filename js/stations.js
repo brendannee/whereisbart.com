@@ -265,7 +265,7 @@ var stations = {
   },
   WARM: {
     lat: 37.501974,
-    lng: 121.939250,
+    lng: -121.939250,
     name: 'Warm Springs',
     iconAbbreviation: 'WS'
   }
