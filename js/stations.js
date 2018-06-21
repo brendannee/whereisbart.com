@@ -1,4 +1,10 @@
 var stations = {
+  'ANTC': {
+    lat: 37.995368,
+    lng: -121.780374,
+    name: 'Antioch',
+    iconAbbreviation: 'A'
+  },
   '12TH': {
     lat: 37.803066,
     lng: -122.271588,
@@ -27,7 +33,7 @@ var stations = {
     lat: 37.853030,
     lng: -122.269957,
     name: 'Ashby',
-    iconAbbreviation: 'A'
+    iconAbbreviation: 'AS'
   },
   BALB: {
     lat: 37.721946,
@@ -250,6 +256,12 @@ var stations = {
     lng: -121.942105,
     name: 'Pittsburg/Bay Point',
     iconAbbreviation: 'P'
+  },
+  PCTR: {
+    lat: 38.016973,
+    lng: -121.889496,
+    name: 'Pittsburg Center',
+    iconAbbreviation: 'PC'
   },
   RICH: {
     lat: 37.937164,

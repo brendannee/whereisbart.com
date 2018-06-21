@@ -99,7 +99,7 @@ function processBART(xml) {
               var position = findTrain(station.abbr, next, time, threshold);
               var icon = L.divIcon({
                 className: 'train-icon train-' + destination.abbreviation.toLowerCase() + '-icon',
-                html: stations[destination.abbreviation].iconAbbreviation,
+                html: stations[destination.abbreviation] ? stations[destination.abbreviation].iconAbbreviation : '',
                 iconSize: [14, 14]
               });
               var marker = new L.Marker(new L.LatLng(position.lat, position.lng), {
