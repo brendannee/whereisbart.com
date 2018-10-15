@@ -9,47 +9,53 @@
 </head>
 
 <body>
-
 	<div id="wrapper">
-		<div id="header">
-			<div class="logo"><a href="https://whereisbart.com"><img src="images/whereisbartlogo.png" alt="Where is BART?" /></a></div>
-		</div>
 		<div class="bart-train"><div class="middle"></div><div class="end"></div></div>
 		<div class="map-wrapper">
 			<div id="legend">
-				<ul>
-					<li><div class="station-icon"></div><span class="legendname">BART Station</span></li>
-					<li><div class="train-icon train-frmt-icon">WS</div><span class="legendname">Warm Springs Train</span></li>
-					<li><div class="train-icon train-dubl-icon">DP</div><span class="legendname">Dublin/Pleasanton Train</span></li>
-					<li><div class="train-icon train-antc-icon">A</div><span class="legendname">Antioch Train</span></li>
-					<li><div class="train-icon train-rich-icon">R</div><span class="legendname">Richmond Train</span></li>
-					<li><div class="train-icon train-24th-icon">24</div><span class="legendname">24th St &amp; Mission Train</span></li>
-					<li><div class="train-icon train-daly-icon">DC</div><span class="legendname">Daly City Train</span></li>
-					<li><div class="train-icon train-mlbr-icon">M</div><span class="legendname">Millbrae Train</span></li>
-					<li><div class="train-icon train-sfia-icon">S</div><span class="legendname">SFO Airport Train</span></li>
-				</ul>
+                <div id="header">
+                    <div class="logo"><a href="https://whereisbart.com"><img src="images/whereisbartlogo.png" alt="Where is BART?" /></a></div>
+                </div>
+                <ul>
+                    <li><div class="station-icon" onclick="developmentMode()"></div><span class="legendname">BART Station</span></li>
+                    <li><div class="train-icon train-red-rich"   >R </div><div class="train-icon train-red-mlbr"   >M </div><span class="legendname">Richmond ⇄ Daly City - Millbrae</span></li>
+                    <li><div class="train-icon train-green-warm" >WS</div><div class="train-icon train-green-daly" >DC</div><span class="legendname">Warm Spring ⇄ Daly City</span></li>
+                    <li><div class="train-icon train-yellow-antc">A </div><div class="train-icon train-yellow-mlbr">M </div><span class="legendname">Antioch ⇄ SFO - Milbrae</span></li>
+                    <li><div class="train-icon train-blue-dubl"  >DP</div><div class="train-icon train-blue-daly"  >DC</div><span class="legendname">Dublin / Pleasanton ⇄ Daly City</span></li>
+                    <li><div class="train-icon train-orange-warm">WS</div><div class="train-icon train-orange-rich">R </div><span class="legendname">Warm Springs ⇄ Richmond</span></li>
+                </ul>
 				<div id="status">
-					<div id="last_updated"></div>
-          <div id="clock">Next update in <span>15</span> seconds</div>
-					<div id="disclaimer">* Note that this map displays estimated train locations based off of <a href="https://bart.gov/schedules/developers/etas.aspx">real time info provided by BART</a></div>
+                    <div id="last_updated">Connecting...</div>
+                    <div id="disclaimer">* Note that this map displays estimated train locations based off of <a href="https://bart.gov/schedules/developers/etas.aspx">real time info provided by BART</a></div>
 				</div>
+                <div id="extra"></div>
+                <div id="development">
+                    <!--input type="checkbox" id="refresh" name="refresh" checked /><label for="refresh">Auto Refresh</label-->
+                    <div id="debugOutput"></div>
+                </div>
 			</div>
-      <footer>
-      <a href="https://github.com/brendannee/whereisbart.com">Site by <a href="https://bn.ee">Brendan Nee</a>
-      </footer>
+            <footer>
+                <a href="https://github.com/brendannee/whereisbart.com">Site by</a><a href="https://bn.ee">Brendan Nee</a>
+            </footer>
 			<div id="map"></div>
 		</div>
-  </div>
-  <a href="https://github.com/brendannee/whereisbart.com"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    </div>
+    <a href="https://github.com/brendannee/whereisbart.com">
+        <img style="position: absolute; top: 0; right: 0; border: 0; z-index: 1000;"
+             src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+             alt="Fork me on GitHub">
+    </a>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-  <script src="js/vendor/jquery.xml2json.js"></script>
-  <script src="js/links.js"></script>
-  <script src="js/stations.js"></script>
-  <script src="js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="js/vendor/jquery.xml2json.js"></script>
+    <script src="js/links.js"></script>
+    <script src="js/stations.js"></script>
+    <script src="js/routes.js"></script>
+	<script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
 
-  <script>
+    <script>
       var _gaq=[['_setAccount','UA-306190-12'],['_trackPageview']];
       (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
       g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';

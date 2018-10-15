@@ -1,10 +1,13 @@
 # WhereisBART.com
 
-Whereisbart.com is a live visualization of the estimated positions of all BART ([Bay Area Rapid Transit](https://bart.gov)) trains.  The positions are estimated using realtime arrival predictions from the [BART API](https://www.bart.gov/schedules/developers/api.aspx).  The estimated travel time between all stations was determined and trains are plotted on a map.  The map assumes normal operating conditions - any delays in the BART system will cause the estimated positions on the map to be inaccurate.
+Whereisbart.com is a live visualization of the estimated positions of all BART ([Bay Area Rapid Transit](https://bart.gov)) trains.
+The positions are estimated using realtime arrival predictions from the [BART API](https://www.bart.gov/schedules/developers/api.aspx).
+The estimated travel time between all stations was determined and trains are plotted on a map.
+The map assumes normal operating conditions - any delays in the BART system will cause the estimated positions on the map to be inaccurate.
 
 The map layer is the [Google Transit layer](https://blinktag.com/google-transit-layer-through-google-maps-api/).
 
-The data is refreshed every 15 seconds.
+The data is queried every 5 seconds and refreshed as needed.
 
 ## Live Site
 
@@ -17,6 +20,23 @@ The source code is available on [github](https://github.com/brendannee/whereisba
 
 Brendan Nee  me@bn.ee
 Jedidiah Horne jedidiah.horne@gmail.com
+Salva Maiorano salva.bart@maiorano.club
+
+## Updates
+
+- Oct-2018
+improve active train location
+move trains smoothly to the new position
+station info when selected
+more space for the map
+change train icons
+debug mode when clicking the legend station icon
+
+# Known issues
+last leg is always missing (bart does not provide this info)
+the Antioch / SFO-Milbrae line is messy, since trins go/return to/from SFIA and BLBR
+in Antioch trains always leave with destination MLBR, and then it changes when they reach PITT
+
 
 ## License
 
