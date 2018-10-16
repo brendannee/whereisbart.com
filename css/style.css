@@ -89,10 +89,16 @@ a:hover {
   overflow: hidden;
   width: 6px;
   height: 6px;
+  color: #000000;
+  line-height: 14px;
+  overflow: hidden;
+  border-radius: 8px;
+  font-size: 7px;
+  text-align: center;
 }
 
 .train-icon {
-  width: 14px;
+  width: 18px;
   height: 14px;
   border: 1px solid #222222;
   color: #222222;
@@ -102,30 +108,40 @@ a:hover {
   overflow: hidden;
   border-radius: 8px;
   font-size: 10px;
+  color: #222222;
+  background-color: #444444;
 }
 
-.train-daly-icon,
-.train-24th-icon,
-.train-mlbr-icon,
-.train-sfia-icon {
-  background-color: #b76dd1;
+.train-yellow-mlbr {
+  color: #e7e51c;
 }
-
-.train-warm-icon,
-.train-frmt-icon {
-  background-color: #00c661;
-}
-
-.train-dubl-icon {
-  background-color: #4594e6;
-}
-
-.train-antc-icon {
+.train-yellow-antc {
   background-color: #e7e51c;
 }
-
-.train-rich-icon {
+.train-green-warm {
+  background-color: #00c661;
+}
+.train-green-daly {
+  color: #00c661;
+}
+.train-red-mlbr {
+  color: #db5349;
+}
+.train-red-rich {
   background-color: #db5349;
+}
+.train-blue-daly {
+  color: #65a4f6;
+}
+.train-blue-dubl {
+  background-color: #65a4f6;
+}
+.train-orange-rich {
+  color: #fd6a02;
+  background-color: #eeeeee;
+}
+.train-orange-warm {
+  background-color: #fd6a02;
 }
 
 /* LEGEND */
@@ -134,6 +150,7 @@ a:hover {
   font-size:12px;
   width:250px;
   position:absolute;
+	padding:5px 5px;
 }
 
 #legend ul {
@@ -175,8 +192,18 @@ a:hover {
 	padding-top: 5px;
 }
 
+#extra {
+	margin: 0px 10px;
+  display: inline-block;
+}
+
+#development {
+  visibility: hidden;
+}
+
 #disclaimer {
   padding-top: 15px;
+  font-size: 10px;
 }
 
 /* FOOTER */

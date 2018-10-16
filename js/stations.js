@@ -66,10 +66,10 @@ var stations = {
     iconAbbreviation: 'CC'
   },
   COLS: {
-    lat: 37.754183,
-    lng: -122.197752,
-    name: 'Coliseum/Oakland Airport',
-    iconAbbreviation: 'OA'
+    lat: 37.753661,
+    lng: -122.196869,
+    name: 'Coliseum',
+    iconAbbreviation: 'CL'
   },
   COLM: {
     lat: 37.684512,
@@ -219,7 +219,7 @@ var stations = {
     lat: 37.615854,
     lng: -122.392502,
     name: 'SF Airport',
-    iconAbbreviation: 'S'
+    iconAbbreviation: 'sfo'
   },
   SHAY: {
     lat: 37.634757,
@@ -280,5 +280,11 @@ var stations = {
     lng: -121.939250,
     name: 'Warm Springs',
     iconAbbreviation: 'WS'
-  }
+  },
+  OAKL: {
+    lat: 37.713238,
+    lng: -122.212191,
+    name: 'Oakland International Airport',
+    iconAbbreviation: 'OA'
+  },
 }
