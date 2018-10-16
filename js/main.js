@@ -3,11 +3,11 @@
 // constants
 var BART_API_URI = 'https://api.bart.gov/api/';
 var BART_API_KEY = 'MW9S-E7SL-26DU-VV8V';
-var REFRESH_FREQ = 5000;  // in millis
+var REFRESH_FREQ = 5000; // in millis
 var STATION_OPACITY = 0.6;
 
 // config
-var routeTimes=[];
+var routeTimes = [];
 
 // runtime data
 var map;
@@ -24,14 +24,19 @@ var debugText = '';
     Setup
 \*----------------------------------------------------------------------*/
 function buildTimes() {
-  links.forEach(function (link) {
-    if (!routeTimes[link.start]) routeTimes[link.start]=[];
-    if (!routeTimes[link.end  ]) routeTimes[link.end  ]=[];
-    routeTimes[link.start][link.end  ]=link.time;
-    routeTimes[link.end  ][link.start]=link.time;
+  links.forEach(function(link) {
+    if (!routeTimes[link.start]) {
+      routeTimes[link.start] = [];
+    }
+
+    if (!routeTimes[link.end]) {
+      routeTimes[link.end] = [];
+    }
+
+    routeTimes[link.start][link.end] = link.time;
+    routeTimes[link.end][link.start] = link.time;
   });
 }
-
 
 /*----------------------------------------------------------------------*\
     Bart Station
@@ -64,22 +69,17 @@ function drawStationInfo(station) {
           trains: []
         }
       };
-      platforms[plat].trains.push({
-        mins: estimate.minutes,
-        destId: destination.abbreviation,
-        dest: destination.destination,
-        color: estimate.color
-      })
+      platforms[plat].trains.push({mins: estimate.minutes, destId: destination.abbreviation, dest: destination.destination, color: estimate.color})
     });
   });
   var output = '<b> >> ' + debug(station.abbr + ": ") + station.name + "</b>";
   platforms.forEach(function(platform, platId) {
-    platform.trains.sort((a,b) => toInt(a.mins) - toInt(b.mins));
+    platform.trains.sort((a, b) => toInt(a.mins) - toInt(b.mins));
     output += '<br>Platform: ' + platId + ' -> ' + platform.dir;
     platform.trains.forEach(function(train) {
-      output += '<br>-- ' + train.mins + ' -- ' + debug(train.destId + ': ') + train.dest + " (" + train.color.toLowerCase() +")";
+      output += '<br>-- ' + train.mins + ' -- ' + debug(train.destId + ': ') + train.dest + " (" + train.color.toLowerCase() + ")";
     });
-    output +='<br>';
+    output += '<br>';
   });
   $('#extra').html(output);
 }
@@ -101,7 +101,7 @@ function processBART(xml) {
   }
   lastProcTime = data.time
 
-  $('#last_updated').html('Data as of <b>' + data.time +'</b>');
+  $('#last_updated').html('Data as of <b>' + data.time + '</b>');
   var debug = 'Data: ' + data.time;
 
   var trains2 = [];
@@ -123,10 +123,15 @@ function computeLiveTrains(data, trains) {
         var route = getRouteInfo(estimate.color, station.abbr, destination.abbreviation);
         if (route) {
           var legMins = routeTimes[station.abbr][route.prev];
-          if (!legMins) legMins = 0;
+          if (!legMins) {
+            legMins = 0;
+          }
           var estimateMins = toInt(estimate.minutes);
           var destKey = estimate.color + '_' + destination.abbreviation;
-          if (!trains[destKey]) trains[destKey] = [];
+          if (!trains[destKey]) {
+            trains[destKey] = [];
+          }
+
           // in case there are more than one estimated train to the same destination
           if (!trains[destKey][station.abbr]) {
             trains[destKey][station.abbr] = {
@@ -140,9 +145,9 @@ function computeLiveTrains(data, trains) {
               legMins: legMins,
               valid: true,
               route: route,
-              sta:station,
-              etd:destination,
-              est:estimate
+              sta: station,
+              etd: destination,
+              est: estimate
             };
           }
         } else {
@@ -161,8 +166,7 @@ function computeLiveTrains(data, trains) {
       if (prev && prev.etaMins < train.etaMins) {
         train.valid = false;
       } else if (train.etaMins > 10 && train.prevStation != stationIdx && next && next.etaMins < train.etaMins) {
-        debug += '<br> dir? ' + train.forStation + '/' + train.etaMins
-          + ' next: ' + next.forStation + '/' + next.etaMins + ' -> ' + train.destStation;
+        debug += '<br> dir? ' + train.forStation + '/' + train.etaMins + ' next: ' + next.forStation + '/' + next.etaMins + ' -> ' + train.destStation;
       }
     }
   }
@@ -174,7 +178,7 @@ function drawLiveTrains(trains) {
   var debug = '';
   for (var destIdx in trains) {
     for (var stationIdx in trains[destIdx]) {
-      var train=trains[destIdx][stationIdx];
+      var train = trains[destIdx][stationIdx];
       if (train.valid) {
         var position = getTrainPosition(train.forStation, train.prevStation, train.etaMins, train.legMins);
         var exisiting = extractPreviousLiveTrain(train, liveTrains);
@@ -203,28 +207,22 @@ function drawLiveTrains(trains) {
     }
   }
   liveTrains.forEach(function(trainMarker) {
-      map.removeLayer(trainMarker.marker);
-      debug += '<br>(del) ' + getTrainShortInfo(trainMarker.train);
+    map.removeLayer(trainMarker.marker);
+    debug += '<br>(del) ' + getTrainShortInfo(trainMarker.train);
   });
   liveTrains = renewTrains;
   return debug;
 }
 
 function getTrainShortInfo(train) {
-  return train.forStation
-      + ',  ' + train.color
-      + ' -> ' + train.destStation
-      + ': ' + train.etaMins;
+  return train.forStation + ',  ' + train.color + ' -> ' + train.destStation + ': ' + train.etaMins;
 }
 
 // search for train for a possible previous/same position from liveTrains
 function extractPreviousLiveTrain(train, trains) {
   for (var i in trains) {
     var check = trains[i];
-    if (train.destStation == check.train.destStation
-        && train.color == check.train.color
-        && (train.forStation == check.train.forStation
-          || train.prevStation == check.train.forStation)) {
+    if (train.destStation == check.train.destStation && train.color == check.train.color && (train.forStation == check.train.forStation || train.prevStation == check.train.forStation)) {
       trains.splice(i, 1);
       return check;
     }
@@ -232,21 +230,36 @@ function extractPreviousLiveTrain(train, trains) {
 }
 
 function getRouteInfo(color, curr, dest) {
-  if (!routes[color]) return;
+  if (!routes[color]) {
+    return;
+  }
+
   var route = routes[color].stations;
   var currIdx = route.indexOf(curr);
   var destIdx = route.indexOf(dest);
-  if (currIdx<0 || destIdx<0) return;
+  if (currIdx < 0 || destIdx < 0) {
+    return;
+  }
+
   var dirUp = currIdx < destIdx;
-  var nextIdx = Math.min(Math.max(currIdx + (dirUp ? 1 : -1), 0), route.length - 1);
-  var prevIdx = Math.min(Math.max(currIdx - (dirUp ? 1 : -1), 0), route.length - 1);
+  var nextIdx = Math.min(Math.max(currIdx + (
+    dirUp
+    ? 1
+    : -1), 0), route.length - 1);
+  var prevIdx = Math.min(Math.max(currIdx - (
+    dirUp
+    ? 1
+    : -1), 0), route.length - 1);
   return {
-    icon: dirUp ? routes[color].iconUp : routes[color].iconDown,
-    prev: route[prevIdx] ? route[prevIdx] : '',
+    icon: dirUp
+      ? routes[color].iconUp
+      : routes[color].iconDown,
+    prev: route[prevIdx]
+      ? route[prevIdx]
+      : '',
     next: route[nextIdx]
   };
 }
-
 
 /*----------------------------------------------------------------------*\
     Map Interaction
@@ -263,18 +276,19 @@ function setupMap() {
   drawStations();
 }
 
-
 function drawStations() {
   $.each(stations, function(name, station) {
     var marker = new L.Marker(new L.LatLng(station.lat, station.lng), {
       icon: L.divIcon({
         className: 'station-icon',
-        iconSize: [6, 6],
-//        iconSize: [22, 11], html: name  //debugging
+        iconSize: [
+          6, 6
+        ],
+        //        iconSize: [22, 11], html: name  debugging
       }),
       title: station.name,
       zIndexOffset: 5000,
-      opacity : STATION_OPACITY
+      opacity: STATION_OPACITY
     });
     marker.bindPopup('Station: <b>' + station.name + '</b>');
     marker.on('click', function() {
@@ -284,19 +298,24 @@ function drawStations() {
   });
 }
 
-
 // Finds postion of trains.
 function getTrainPosition(toStation, fromStation, estimateMins, threshold) {
   toStation = stations[toStation];
   fromStation = stations[fromStation];
 
-  if (estimateMins > threshold) estimateMins = threshold;
-  var percent = (estimateMins + 0.25) / (threshold + 1.0);
-  if (estimateMins == 0) percent = 0;
-  var lat = toStation.lat - ( (toStation.lat - fromStation.lat) * percent );
-  var lng = toStation.lng - ( (toStation.lng - fromStation.lng) * percent );
+  if (estimateMins > threshold) {
+    estimateMins = threshold;
+  }
 
-  return { lat: lat, lng: lng };
+  var percent = (estimateMins + 0.25) / (threshold + 1.0);
+  if (estimateMins == 0) {
+    percent = 0;
+  }
+
+  var lat = toStation.lat - ((toStation.lat - fromStation.lat) * percent);
+  var lng = toStation.lng - ((toStation.lng - fromStation.lng) * percent);
+
+  return {lat: lat, lng: lng};
 }
 
 function createTrainMarker(train, station, destination, estimate, position, threshold, fromStation) {
@@ -314,23 +333,30 @@ function createTrainMarker(train, station, destination, estimate, position, thre
 }
 
 function setTrainPopup(marker, train, station, destination, estimate, position, threshold, fromStation) {
-  var iconLabel = stations[destination.abbreviation] ? stations[destination.abbreviation].iconAbbreviation : '';
-  if (estimate.delay > 0) iconLabel += '!';
-  if (marker.options.icon) marker.options.icon.options.html = iconLabel;
+  var iconLabel = stations[destination.abbreviation]
+    ? stations[destination.abbreviation].iconAbbreviation
+    : '';
+  if (estimate.delay > 0) {
+    iconLabel += '!';
+  }
+
+  if (marker.options.icon) {
+    marker.options.icon.options.html = iconLabel;
+  }
 
   var markerText = '<b>' + destination.destination + '</b> Train';
   if (estimate.minutes == 'Leaving') {
     markerText += '<br>Leaving Station: <b>' + stations[station.abbr].name + '</b>';
   } else {
-    markerText += '<br>Next Station: <b>' + stations[station.abbr].name + '</b> in ' + estimate.minutes + ' min'+ debug(' (total ' + threshold + ')');
+    markerText += '<br>Next Station: <b>' + stations[station.abbr].name + '</b> in ' + estimate.minutes + ' min' + debug(' (total ' + threshold + ')');
   }
-  markerText += debug('<br> ' + estimate.color + '/' + estimate.direction
-    + ', from: ' + fromStation
-    + ', to: ' + station.abbr
-    + ', final: ' + destination.abbreviation);
+
+  markerText += debug('<br> ' + estimate.color + '/' + estimate.direction + ', from: ' + fromStation + ', to: ' + station.abbr + ', final: ' + destination.abbreviation);
+
   if (estimate.delay > 0) {
     markerText += '<br>Delayed: <b>' + secondsToMins(estimate.delay) + '</b> mins.';
   }
+
   marker.bindPopup(markerText);
 }
 
@@ -345,25 +371,25 @@ function moveTrains() {
   });
 }
 
-
 /*----------------------------------------------------------------------*\
     Main
 \*----------------------------------------------------------------------*/
 function debug(text) {
-  return debugMode ? text : '';
+  return debugMode
+    ? text
+    : '';
 }
-
 
 function sizeWindow() {
   $('#map').height($(window).height() - 40);
 }
 
-
 function developmentMode() {
   debugMode = !debugMode;
-  $('#development')[0].style.visibility = debugMode ? 'visible' : '';
+  $('#development')[0].style.visibility = debugMode
+    ? 'visible'
+    : '';
 }
-
 
 function updateClock() {
   if (refreshCountDown > 0) {
@@ -383,4 +409,3 @@ $(document).ready(function() {
   setInterval(getBART, REFRESH_FREQ);
   setInterval(moveTrains, 1000);
 });
-
