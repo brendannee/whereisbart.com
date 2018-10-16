@@ -32,9 +32,9 @@ more space for the map
 change train icons
 debug mode when clicking the legend station icon
 
-# Known issues
+# Known limitations
 last leg is always missing (bart does not provide this info)
-the Antioch / SFO-Milbrae line is messy, since trins go/return to/from SFIA and BLBR
+the Antioch / SFO-Milbrae line is messy, since trains go/return to/from SFIA and BLBR
 in Antioch trains always leave with destination MLBR, and then it changes when they reach PITT
 
 
