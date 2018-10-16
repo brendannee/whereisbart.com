@@ -46,7 +46,6 @@ function getBartStation(stationKey, marker) {
   if (showingStation == stationKey) {
     showingStation = '';
     activeMarker = undefined;
-    $('#extra').html('');
     return;
   }
   $.get(BART_API_URI + 'etd.aspx?cmd=etd&orig=' + stationKey + '&key=' + BART_API_KEY + '&callback=?', function(xml) {
