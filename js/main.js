@@ -15,6 +15,7 @@ var refreshCountDown = REFRESH_FREQ; // in millis
 var lastProcTime;
 var liveTrains = [];
 var showingStation;
+var activeMarker;
 
 // debugging
 var debugMode = false;
@@ -41,24 +42,23 @@ function buildTimes() {
 /*----------------------------------------------------------------------*\
     Bart Station
 \*----------------------------------------------------------------------*/
-function getBartStation(station) {
-  if (showingStation == station) {
+function getBartStation(stationKey, marker) {
+  if (showingStation == stationKey) {
     showingStation = '';
+    activeMarker = undefined;
     $('#extra').html('');
     return;
   }
-  $.get(BART_API_URI + 'etd.aspx?cmd=etd&orig=' + station + '&key=' + BART_API_KEY + '&callback=?', callbackStation);
+  $.get(BART_API_URI + 'etd.aspx?cmd=etd&orig=' + stationKey + '&key=' + BART_API_KEY + '&callback=?', function(xml) {
+    // Parse XML
+    var data = $.xml2json(xml);
+    showingStation = data.station.abbr;
+    activeMarker = marker;
+    showStationInfo(data.station);
+  });
 }
 
-function callbackStation(xml) {
-  // Parse XML
-  var data = $.xml2json(xml);
-  var station = data.station;
-  drawStationInfo(data.station);
-  showingStation = data.station.abbr;
-}
-
-function drawStationInfo(station) {
+function showStationInfo(station) {
   var platforms = [];
   asArray(station.etd).forEach(function(destination) {
     asArray(destination.estimate).forEach(function(estimate) {
@@ -72,16 +72,16 @@ function drawStationInfo(station) {
       platforms[plat].trains.push({mins: estimate.minutes, destId: destination.abbreviation, dest: destination.destination, color: estimate.color})
     });
   });
-  var output = '<b> >> ' + debug(station.abbr + ": ") + station.name + "</b>";
+  var stationInfo = 'Station: <b>' + station.name + '</b>';
   platforms.forEach(function(platform, platId) {
     platform.trains.sort((a, b) => toInt(a.mins) - toInt(b.mins));
-    output += '<br>Platform: ' + platId + ' -> ' + platform.dir;
+    stationInfo += '<br>Platform ' + platId + ': ' + platform.dir;
     platform.trains.forEach(function(train) {
-      output += '<br>-- ' + train.mins + ' -- ' + debug(train.destId + ': ') + train.dest + " (" + train.color.toLowerCase() + ")";
+      stationInfo += '<br>' + train.mins + ' min -- ' + debug(train.destId + ': ') + train.dest + ' (' + train.color.toLowerCase() + ')';
     });
-    output += '<br>';
+    stationInfo += '<br>';
   });
-  $('#extra').html(output);
+  activeMarker.bindPopup(stationInfo);
 }
 
 /*----------------------------------------------------------------------*\
@@ -116,7 +116,7 @@ function computeLiveTrains(data, trains) {
   var debug = '';
   data.station.forEach(function(station) {
     if (showingStation == station.abbr) {
-      drawStationInfo(station);
+      showStationInfo(station);
     }
     asArray(station.etd).forEach(function(destination) {
       asArray(destination.estimate).forEach(function(estimate) {
@@ -277,7 +277,7 @@ function setupMap() {
 }
 
 function drawStations() {
-  $.each(stations, function(name, station) {
+  $.each(stations, function(stationKey, station) {
     var marker = new L.Marker(new L.LatLng(station.lat, station.lng), {
       icon: L.divIcon({
         className: 'station-icon',
@@ -291,7 +291,7 @@ function drawStations() {
     });
     marker.bindPopup('Station: <b>' + station.name + '</b>');
     marker.on('click', function() {
-      getBartStation(name);
+      getBartStation(stationKey, marker);
     });
     map.addLayer(marker);
   });
