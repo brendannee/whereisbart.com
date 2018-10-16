@@ -282,9 +282,8 @@ function drawStations() {
       icon: L.divIcon({
         className: 'station-icon',
         iconSize: [
-          6, 6
+          9, 9
         ],
-        //        iconSize: [22, 11], html: name  debugging
       }),
       title: station.name,
       zIndexOffset: 100,
