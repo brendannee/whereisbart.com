@@ -287,7 +287,7 @@ function drawStations() {
         //        iconSize: [22, 11], html: name  debugging
       }),
       title: station.name,
-      zIndexOffset: 5000,
+      zIndexOffset: 100,
       opacity: STATION_OPACITY
     });
     marker.bindPopup('Station: <b>' + station.name + '</b>');
