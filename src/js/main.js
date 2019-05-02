@@ -48,7 +48,7 @@ function setSelectedTrain(destination) {
 }
 /*----------------------------------------------------------------------*\
     Bart Station
-\*-----------------------------------------------------------------z-----*/
+\*----------------------------------------------------------------------*/
 function getBartStation(stationKey, marker) {
   if (showingStation == stationKey) {
     showingStation = "";
