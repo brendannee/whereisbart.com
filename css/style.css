@@ -1,5 +1,5 @@
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, san-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, san-serif;
   font-weight: 200;
   margin: 0;
   padding: 0;
@@ -55,7 +55,7 @@ a:hover {
   width: 70%;
   height: 30px;
   float: left;
-  background: #FFFFFF url(../images/bart_middle.png) repeat-x;
+  background: #ffffff url(../images/bart_middle.png) repeat-x;
   background-position: top right;
 }
 
@@ -63,7 +63,7 @@ a:hover {
   height: 30px;
   width: 175px;
   float: left;
-  background: #FFFFFF url(../images/bart_front.png) repeat-x;
+  background: #ffffff url(../images/bart_front.png) repeat-x;
   background-position: top right;
 }
 
@@ -78,7 +78,7 @@ a:hover {
 }
 
 #map {
-  margin: 0 0 0 250px;
+  margin: 0 0 0 0;
   height: 75%;
 }
 
@@ -220,4 +220,10 @@ footer {
   bottom: 0;
   width: 250px;
   padding: 5px;
+}
+/* CUSTOM */
+.findbox {
+  margin: 0 0 0 0;
+  width: 100%;
+  font-size: 23px;
 }
