@@ -10,6 +10,7 @@ jobs:
       - aws-s3/sync:
           from: ./src
           to: 's3://bart.gariany.com'
+          aws-region: AWS_REGION_BLUE
           overwrite: true
           arguments: |
             --acl public-read \
