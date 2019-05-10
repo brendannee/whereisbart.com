@@ -3,7 +3,7 @@
 // constants
 var BART_API_URI = "https://api.bart.gov/api/";
 var BART_API_KEY = "MW9S-E7SL-26DU-VV8V";
-var REFRESH_FREQ = 5000; // in millis
+var REFRESH_FREQ = 10000; // in millis
 var STATION_OPACITY = 0.6;
 
 // config
@@ -120,21 +120,24 @@ function getBART() {
       "etd.aspx?cmd=etd&orig=ALL&key=" +
       BART_API_KEY +
       "&callback=?",
-    processBART
+    saveBartData
   );
 }
-var prevSelection = selectedTrain; //this is for comparing when getting new data
-function processBART(xml) {
-  // Parse XML
-  var data = $.xml2json(xml);
-  refreshCountDown = REFRESH_FREQ;
-  // some times we get the same data, or responses out of order, in such case, we just ignore them
-  // a: this if was changed in order to ensure the map is being updated immediately after a filter
-  if (lastProcTime >= data.time && prevSelection === selectedTrain) {
-    return;
-  } else if (prevSelection !== selectedTrain) {
-    prevSelection = selectedTrain;
+function saveBartData(xml) {
+  if (typeof Storage !== "undefined") {
+    // Code for localStorage/sessionStorage.
+    localStorage.setItem("bart_data", JSON.stringify($.xml2json(xml)));
+  } else {
+    alert(
+      "Browser dosn't support some of the technolgy required for this application, you are redirected to Google"
+    );
+    location = "https://www.google.com";
   }
+}
+function processBART() {
+  // Parse XML
+  var data = JSON.parse(localStorage.getItem("bart_data"));
+  refreshCountDown = REFRESH_FREQ;
   lastProcTime = data.time;
 
   $("#last_updated").html("Data as of <b>" + data.time + "</b>");
@@ -150,6 +153,7 @@ function processBART(xml) {
 
 function computeLiveTrains(data, trains) {
   var debug = "";
+  if (data == undefined) return;
   data.station.forEach(function(station) {
     if (showingStation == station.abbr) {
       showStationInfo(station);
@@ -556,4 +560,5 @@ $(document).ready(function() {
   setInterval(updateClock, 1000);
   setInterval(getBART, REFRESH_FREQ);
   setInterval(moveTrains, 1000);
+  setInterval(processBART, 1000);
 });
