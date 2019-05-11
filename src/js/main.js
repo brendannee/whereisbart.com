@@ -47,6 +47,27 @@ function setSelectedTrain(destination) {
   selectedTrain = destination;
 }
 /*----------------------------------------------------------------------*\
+    Bartfunk Tunes
+\*----------------------------------------------------------------------*/
+function playSound(soundId) {
+  var soundFile = "not found";
+  switch (soundId) {
+    case 1:
+      soundFile = "high-ding.mp3";
+      break;
+    case 2:
+      soundFile = "low-ding.mp3";
+      break;
+    case 3:
+      soundFile = "woosh.mp3";
+      break;
+  }
+  if (soundFile == "not found") return;
+
+  var audio = new Audio("./audio/" + soundFile);
+  audio.play();
+}
+/*----------------------------------------------------------------------*\
     Bart Station
 \*----------------------------------------------------------------------*/
 function getBartStation(stationKey, marker) {
@@ -137,6 +158,9 @@ function saveBartData(xml) {
 function processBART() {
   // Parse XML
   var data = JSON.parse(localStorage.getItem("bart_data"));
+  if (lastProcTime < data.time) {
+    playSound(3);
+  }
   refreshCountDown = REFRESH_FREQ;
   lastProcTime = data.time;
 
@@ -148,7 +172,7 @@ function processBART() {
   debug += drawLiveTrains(trains2);
 
   debugText = debug + "<br><br>" + debugText.substring(0, 6000);
-  console.log(debugText);
+  //console.log(debugText);
 }
 
 function computeLiveTrains(data, trains) {
