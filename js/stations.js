@@ -47,6 +47,12 @@ var stations = {
     name: 'Bay Fair',
     iconAbbreviation: 'BF'
   },
+  BERY: {
+    lat: 37.368583,
+    lng: -121.874734,
+    name: 'Berryessa / North San José Station',
+    iconAbbreviation: 'B'
+  },
   DBRK: {
     lat: 37.869784,
     lng: -122.267983,
@@ -161,6 +167,12 @@ var stations = {
     name: 'Millbrae',
     iconAbbreviation: 'M'
   },
+  MLPT: {
+    lat: 37.4099929,
+    lng: -121.890849,
+    name: 'Milpitas',
+    iconAbbreviation: 'MP'
+  },
   MONT: {
     lat: 37.789298,
     lng: -122.401471,
@@ -219,7 +231,7 @@ var stations = {
     lat: 37.615854,
     lng: -122.392502,
     name: 'SF Airport',
-    iconAbbreviation: 'sfo'
+    iconAbbreviation: 'SFO'
   },
   SHAY: {
     lat: 37.634757,

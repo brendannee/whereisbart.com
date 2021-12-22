@@ -271,7 +271,7 @@ function setupMap() {
     maxZoom: 16
   });
   var sf = new L.LatLng(37.735, -122.17);
-  map.setView(sf, 11).addLayer(layer);
+  map.setView(sf, 10).addLayer(layer);
   drawStations();
 }
 
@@ -323,7 +323,7 @@ function createTrainMarker(train, station, destination, estimate, position, thre
   });
   var marker = new L.Marker(new L.LatLng(position.lat, position.lng), {
     icon: icon,
-    title: train.etd.destination,
+    title: `${train.etd.destination} bound train`,
     zIndexOffset: 1000
   });
   setTrainPopup(marker, train, station, destination, estimate, position, threshold, fromStation);

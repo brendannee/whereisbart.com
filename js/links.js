@@ -23,6 +23,8 @@ var links = [
 { start: 'NBRK',  end: 'PLZA',  time: 3},
 { start: 'PLZA',  end: 'DELN',  time: 3},
 { start: 'DELN',  end: 'RICH',  time: 4},
+{ start: 'BERY',  end: 'MLPT',  time: 4},
+{ start: 'MLPT',  end: 'WARM',  time: 8},
 { start: 'WARM',  end: 'FRMT',  time: 6},
 { start: 'FRMT',  end: 'UCTY',  time: 5},
 { start: 'UCTY',  end: 'SHAY',  time: 5},
