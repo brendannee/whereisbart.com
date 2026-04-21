@@ -272,6 +272,17 @@ function setupMap() {
   });
   var sf = new L.LatLng(37.735, -122.17);
   map.setView(sf, 10).addLayer(layer);
+
+  // Clear train ETAs when clicking on the map outside of a train marker.
+  // Leaflet marker clicks don't propagate to the map, so this only fires
+  // for clicks on empty map areas.
+  map.on('click', function() {
+    if (selectedTrain) {
+      clearStationTrainETA();
+      selectedTrain = null;
+    }
+  });
+
   drawStations();
 }
 
