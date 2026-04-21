@@ -10,11 +10,11 @@ var routes = {
 },
 'GREEN':  {
   iconDown: 'green-warm', iconUp: 'green-daly',
-  stations: ['WARM','FRMT','UCTY','SHAY','HAYW','BAYF','SANL','COLS','FTVL','LAKE','WOAK','EMBR','MONT','POWL','CIVC','16TH','24TH','GLEN','BALB','DALY'], // ##=5
+  stations: ['BERY','MLPT','WARM','FRMT','UCTY','SHAY','HAYW','BAYF','SANL','COLS','FTVL','LAKE','WOAK','EMBR','MONT','POWL','CIVC','16TH','24TH','GLEN','BALB','DALY'], // ##=5
 },
 'RED':    {
   iconDown: 'red-sfo', iconUp: 'red-rich',
-  stations: ['MLBR','SBRN','SSAN','COLM','DALY','BALB','GLEN','24TH','16TH','CIVC','POWL','MONT','EMBR','WOAK','12TH','19TH','MCAR','ASHB','DBRK','NBRK','PLZA','DELN','RICH'], // ##=8
+  stations: ['MLBR','SFIA','SBRN','SSAN','COLM','DALY','BALB','GLEN','24TH','16TH','CIVC','POWL','MONT','EMBR','WOAK','12TH','19TH','MCAR','ASHB','DBRK','NBRK','PLZA','DELN','RICH'], // ##=8
 },
 'BLUE':   {
   iconDown: 'blue-daly', iconUp: 'blue-dubl',

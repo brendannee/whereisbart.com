@@ -16,10 +16,13 @@ var lastProcTime;
 var liveTrains = [];
 var showingStation;
 var activeMarker;
+var selectedTrain;
+var stationTrainETA = [];
 
 // debugging
 var debugMode = false;
 var debugText = '';
+var drawRoutePathDone = false;
 
 /*----------------------------------------------------------------------*\
     Setup
@@ -180,28 +183,22 @@ function drawLiveTrains(trains) {
       var train = trains[destIdx][stationIdx];
       if (train.valid) {
         var position = getTrainPosition(train.forStation, train.prevStation, train.etaMins, train.legMins);
-        var exisiting = extractPreviousLiveTrain(train, liveTrains);
-        if (!exisiting) {
-          var marker = createTrainMarker(train, train.sta, train.etd, train.est, position, train.legMins, train.prevStation)
-          var trainMarker = {
-            train: train,
-            position: position,
-            marker: marker
-          };
+        var trainMarker = extractPreviousLiveTrain(train, liveTrains);
+        if (!trainMarker) {
+          trainMarker = createTrainMarker(train, position)
           map.addLayer(trainMarker.marker);
-          renewTrains.push(trainMarker);
+          // Store reference and add click handler
+          trainMarker.marker._trainMarkerRef = trainMarker;
+          trainMarker.marker.on('click', function() {
+            onTrainClick(this._trainMarkerRef);
+          });
+
           debug += '<br>(add) ' + getTrainShortInfo(train);
-        } else if (position.lat != exisiting.position.lat || position.lng != exisiting.position.lng) {
-          exisiting.train = train;
-          exisiting.adjCount = 30;
-          exisiting.adjLat = (position.lat - exisiting.position.lat) / exisiting.adjCount;
-          exisiting.adjLng = (position.lng - exisiting.position.lng) / exisiting.adjCount;
-          setTrainPopup(exisiting.marker, train, train.sta, train.etd, train.est, position, train.legMins, train.prevStation);
-          renewTrains.push(exisiting);
-          // we also want to update the markerText with new/updated info
-        } else {
-          renewTrains.push(exisiting);
+        } else if (position.lat != trainMarker.position.lat || position.lng != trainMarker.position.lng) {
+          trainMarker.train = train;
+          updateTrainMarker(trainMarker, position);
         }
+        renewTrains.push(trainMarker);
       }
     }
   }
@@ -221,7 +218,10 @@ function getTrainShortInfo(train) {
 function extractPreviousLiveTrain(train, trains) {
   for (var i in trains) {
     var check = trains[i];
-    if (train.destStation == check.train.destStation && train.color == check.train.color && (train.forStation == check.train.forStation || train.prevStation == check.train.forStation)) {
+    if (train.destStation == check.train.destStation
+        && train.color == check.train.color
+        && (train.forStation == check.train.forStation
+            || train.prevStation == check.train.forStation)) {
       trains.splice(i, 1);
       return check;
     }
@@ -275,6 +275,28 @@ function setupMap() {
   drawStations();
 }
 
+// Draw all route path segments (for debugging)
+function drawRoutePath() {
+  if (drawRoutePathDone) return;
+  drawRoutePathDone = true;
+
+  routePath.forEach(function(segment) {
+    var latlngs = segment.waypoints.map(function(point) {
+      return [point.lat, point.lng];
+    });
+
+    var polyline = L.polyline(latlngs, {
+      color: '#0066cc',
+      weight: 6,
+      opacity: 0.4,
+      smoothFactor: 1
+    });
+
+    polyline.bindPopup('<b>Route:</b> ' + segment.start + ' → ' + segment.end);
+    map.addLayer(polyline);
+  });
+}
+
 function drawStations() {
   $.each(stations, function(stationKey, station) {
     var marker = new L.Marker(new L.LatLng(station.lat, station.lng), {
@@ -297,9 +319,9 @@ function drawStations() {
 }
 
 // Finds postion of trains.
-function getTrainPosition(toStation, fromStation, estimateMins, threshold) {
-  toStation = stations[toStation];
-  fromStation = stations[fromStation];
+function getTrainPosition(toStationCode, fromStationCode, estimateMins, threshold) {
+  toStation = stations[toStationCode];
+  fromStation = stations[fromStationCode];
 
   if (estimateMins > threshold) {
     estimateMins = threshold;
@@ -310,27 +332,92 @@ function getTrainPosition(toStation, fromStation, estimateMins, threshold) {
     percent = 0;
   }
 
+  // Try to use detailed route path if available
+  var waypoints = getRoutePath(fromStationCode, toStationCode);
+  if (waypoints && waypoints.length > 2) {
+    var position = getPositionAlongRoute(waypoints, percent);
+    if (position) {
+      return position;
+    }
+  }
+
+  // Fallback to simple linear interpolation if no route path available
   var lat = toStation.lat - ((toStation.lat - fromStation.lat) * percent);
   var lng = toStation.lng - ((toStation.lng - fromStation.lng) * percent);
+  var bearing = getBearing(fromStation, toStation);
 
-  return {lat: lat, lng: lng};
+  return {lat: lat, lng: lng, bearing: bearing};
 }
 
-function createTrainMarker(train, station, destination, estimate, position, threshold, fromStation) {
+function createTrainMarker(train, position) {
+  var anchors = calculateIconAnchor(position);
   var icon = L.divIcon({
     className: 'train-icon train-' + train.route.icon,
-    iconSize: [18, 14]
+    iconSize: [18, 14],
+    iconAnchor: anchors.iconAnchor,
+    popupAnchor: anchors.popupAnchor
   });
+
   var marker = new L.Marker(new L.LatLng(position.lat, position.lng), {
     icon: icon,
     title: `${train.etd.destination} bound train`,
     zIndexOffset: 1000
   });
-  setTrainPopup(marker, train, station, destination, estimate, position, threshold, fromStation);
-  return marker;
+
+  var trainMarker = {
+    train: train,
+    position: position,
+    marker: marker
+  };
+
+  // Store reference to trainMarker object for click handler
+  marker._trainMarkerRef = null;
+
+  setTrainPopup(marker, train);
+  return trainMarker;
 }
 
-function setTrainPopup(marker, train, station, destination, estimate, position, threshold, fromStation) {
+function updateTrainMarker(trainMarker, position) {
+  trainMarker.adjCount = 30;
+  trainMarker.adjLat = (position.lat - trainMarker.position.lat) / trainMarker.adjCount;
+  trainMarker.adjLng = (position.lng - trainMarker.position.lng) / trainMarker.adjCount;
+
+  var anchors = calculateIconAnchor(position);
+  trainMarker.marker.options.icon.options.iconAnchor = anchors.iconAnchor;
+  trainMarker.marker.options.icon.options.popupAnchor = anchors.popupAnchor;
+
+  setTrainPopup(trainMarker.marker, trainMarker.train);
+}
+
+// Calculate icon offset based on bearing
+// Offset perpendicular to direction of travel (to the right)
+// Default center of 18x14 icon
+function calculateIconAnchor(position) {
+  var offsetPixels = 8;
+  // Convert bearing to radians and add 90 degrees for perpendicular (right side)
+  var bearingRad = (position.bearing + 90) * Math.PI / 180;
+  // Calculate perpendicular offset
+  var xOffset = offsetPixels * Math.sin(bearingRad);
+  var yOffset = -offsetPixels * Math.cos(bearingRad);
+  // Apply offset to icon anchor
+  var iconAnchor = [9 - xOffset, 7 - yOffset];
+  // Popup anchor should compensate for the icon offset to center on the train
+  // The popup anchor is relative to the icon anchor, so we need to reverse the offset
+  var popupAnchor = [xOffset+2, yOffset-4];
+
+  return {
+    iconAnchor: iconAnchor,
+    popupAnchor: popupAnchor
+  };
+}
+
+function setTrainPopup(marker, train) {
+  var station = train.sta
+  var destination = train.etd
+  var estimate = train.est
+  var threshold = train.legMins
+  var fromStation = train.prevStation
+
   var iconLabel = stations[destination.abbreviation]
     ? stations[destination.abbreviation].iconAbbreviation
     : '';
@@ -370,6 +457,133 @@ function moveTrains() {
 }
 
 /*----------------------------------------------------------------------*\
+    Train Selection and Station Train ETA
+\*----------------------------------------------------------------------*/
+function onTrainClick(trainMarker) {
+  // Toggle selection if clicking the same train
+  if (selectedTrain === trainMarker) {
+    clearStationTrainETA();
+    selectedTrain = null;
+    return;
+  }
+
+  // Update selection
+  clearStationTrainETA();
+  selectedTrain = trainMarker;
+
+  // Validate route exists
+  var train = trainMarker.train;
+  var route = routes[train.color];
+  if (!route) {
+    return;
+  }
+
+  // Get route information
+  var routeInfo = getRouteIndices(train, route);
+  if (!routeInfo) {
+    return;
+  }
+
+  // Display ETAs for all stations on route
+  displayTrainETAs(train, routeInfo);
+}
+
+function clearStationTrainETA() {
+  stationTrainETA.forEach(function(bubble) {
+    map.removeLayer(bubble);
+  });
+  stationTrainETA = [];
+}
+
+function getRouteIndices(train, route) {
+  var routeStations = route.stations;
+  var currentIdx = routeStations.indexOf(train.forStation);
+  var destIdx = routeStations.indexOf(train.destStation);
+
+  if (currentIdx < 0 || destIdx < 0) {
+    return null;
+  }
+
+  return {
+    routeStations: routeStations,
+    currentIdx: currentIdx,
+    destIdx: destIdx,
+    directionForward: currentIdx < destIdx
+  };
+}
+
+function calculateStationETA(i, startIdx, step, train, routeStations, cumulativeTime) {
+  if (i === startIdx) {
+    return {
+      timeToStation: train.etaMins,
+      cumulativeTime: train.etaMins
+    };
+  }
+
+  var prevStationKey = routeStations[i - step];
+  var currentStationKey = routeStations[i];
+  var travelTime = routeTimes[prevStationKey][currentStationKey];
+
+  if (!travelTime) {
+    return null;
+  }
+
+  var newCumulativeTime = cumulativeTime + travelTime;
+  return {
+    timeToStation: newCumulativeTime,
+    cumulativeTime: newCumulativeTime
+  };
+}
+
+function createETAMarker(station, timeToStation) {
+  var timeString = minsToTime(timeToStation);
+  var trainEtaIcon = L.divIcon({
+    className: 'station-train-eta`',
+    html: '<div class="train-eta-time">' + timeString + '</div>',
+    iconSize: [45, 20],
+    iconAnchor: [22.5, 25]
+  });
+
+  var bubble = new L.Marker(new L.LatLng(station.lat, station.lng), {
+    icon: trainEtaIcon,
+    zIndexOffset: 2000,
+    interactive: false
+  });
+
+  bubble.bindPopup('<b>' + station.name + '</b><br>ETA: ' + timeString + ' (' + Math.round(timeToStation) + ' minutes)');
+  return bubble;
+}
+
+function displayTrainETAs(train, routeInfo) {
+  var routeStations = routeInfo.routeStations;
+  var startIdx = routeInfo.currentIdx;
+  var endIdx = routeInfo.destIdx;
+  var directionForward = routeInfo.directionForward;
+  var step = directionForward ? 1 : -1;
+  var cumulativeTime = 0;
+
+  for (var i = startIdx; directionForward ? i <= endIdx : i >= endIdx; i += step) {
+    var stationKey = routeStations[i];
+    var station = stations[stationKey];
+
+    if (!station) {
+      continue;
+    }
+
+    var etaResult = calculateStationETA(i, startIdx, step, train, routeStations, cumulativeTime);
+    if (!etaResult) {
+      continue;
+    }
+
+    cumulativeTime = etaResult.cumulativeTime;
+    var bubble = createETAMarker(station, etaResult.timeToStation);
+
+    map.addLayer(bubble);
+    stationTrainETA.push(bubble);
+  }
+}
+
+/*----------------------------------------------------------------------*\
     Main
 \*----------------------------------------------------------------------*/
 function debug(text) {
@@ -387,6 +601,7 @@ function developmentMode() {
   $('#development')[0].style.visibility = debugMode
     ? 'visible'
     : '';
+  if (debugMode) drawRoutePath();
 }
 
 function updateClock() {
