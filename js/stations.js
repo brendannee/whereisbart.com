@@ -3,300 +3,419 @@ var stations = {
     lat: 37.995368,
     lng: -121.780374,
     name: 'Antioch',
-    iconAbbreviation: 'A'
+    iconAbbreviation: 'A',
+    platform1Dir: 'End',
+    platform2Dir: 'W'
   },
   '12TH': {
-    lat: 37.803066,
-    lng: -122.271588,
+    lat: 37.803768,
+    lng: -122.271450,
     name: '12th St. Oakland City Center',
-    iconAbbreviation: '12'
+    iconAbbreviation: '12',
+    platform1Dir: 'N',
+    platform2Dir: 'S',
+    platform3Dir: 'N'
   },
   '16TH': {
     lat: 37.765214,
     lng: -122.419431,
     name: '16th St. Mission',
-    iconAbbreviation: '16'
+    iconAbbreviation: '16',
+    platform1Dir: 'S',
+    platform2Dir: 'N'
   },
   '19TH': {
-    lat: 37.807593,
-    lng: -122.268884,
+    lat: 37.808846,
+    lng: -122.268513,
     name: '19th St. Oakland',
-    iconAbbreviation: '19'
+    iconAbbreviation: '19',
+    platform1Dir: 'N',
+    platform2Dir: 'S',
+    platform3Dir: 'N'
   },
   '24TH': {
     lat: 37.752423,
     lng: -122.418294,
     name: '24th St. Mission',
-    iconAbbreviation: '24'
+    iconAbbreviation: '24',
+    platform1Dir: 'S',
+    platform2Dir: 'N'
   },
   ASHB: {
     lat: 37.853030,
     lng: -122.269957,
     name: 'Ashby',
-    iconAbbreviation: 'AS'
+    iconAbbreviation: 'AS',
+    platform1Dir: 'N',
+    platform2Dir: 'S'
   },
   BALB: {
     lat: 37.721946,
     lng: -122.447433,
     name: 'Balboa Park',
-    iconAbbreviation: 'BP'
+    iconAbbreviation: 'BP',
+    platform1Dir: 'SW',
+    platform2Dir: 'NE'
   },
   BAYF: {
-    lat: 37.697756,
-    lng: -122.127864,
+    lat: 37.696924,
+    lng: -122.126514,
     name: 'Bay Fair',
-    iconAbbreviation: 'BF'
+    iconAbbreviation: 'BF',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   BERY: {
     lat: 37.368583,
     lng: -121.874734,
     name: 'Berryessa / North San José Station',
-    iconAbbreviation: 'B'
+    iconAbbreviation: 'B',
+    platform1Dir: 'N',
+    platform2Dir: 'N'
   },
   DBRK: {
     lat: 37.869784,
     lng: -122.267983,
     name: 'Downtown Berkeley',
-    iconAbbreviation: 'DB'
+    iconAbbreviation: 'DB',
+    platform1Dir: 'N',
+    platform2Dir: 'S',
   },
   CAST: {
-    lat: 37.690744,
-    lng: -122.077439,
+    lat: 37.690746,
+    lng: -122.075602,
     name: 'Castro Valley',
-    iconAbbreviation: 'CV'
+    iconAbbreviation: 'CV',
+    platform1Dir: 'E',
+    platform2Dir: 'W'
   },
   CIVC: {
-    lat: 37.779224,
-    lng: -122.413831,
+    lat: 37.779732,
+    lng: -122.414123,
     name: 'Civic Center/UN Plaza',
-    iconAbbreviation: 'CC'
+    iconAbbreviation: 'CC',
+    platform1Dir: 'SW',
+    platform2Dir: 'NE'
   },
   COLS: {
     lat: 37.753661,
     lng: -122.196869,
     name: 'Coliseum',
-    iconAbbreviation: 'CL'
+    iconAbbreviation: 'CL',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   COLM: {
-    lat: 37.684512,
-    lng: -122.467368,
+    lat: 37.684638,
+    lng: -122.466233,
     name: 'Colma',
-    iconAbbreviation: 'CM'
+    iconAbbreviation: 'CM',
+    platform1Dir: 'SE',
+    platform2Dir: 'N'
   },
   CONC: {
-    lat: 37.972070,
-    lng: -122.029910,
+    lat: 37.973737,
+    lng: -122.029095,
     name: 'Concord',
-    iconAbbreviation: 'CO'
+    iconAbbreviation: 'CO',
+    platform1Dir: 'N',
+    platform2Dir: 'S'
   },
   DALY: {
     lat: 37.706058,
     lng: -122.469084,
     name: 'Daly City',
-    iconAbbreviation: 'DC'
+    iconAbbreviation: 'DC',
+    platform1Dir: 'NE',
+    platform2Dir: 'NE',
+    platform3Dir: 'S'
   },
   DUBL: {
-    lat: 37.701640,
-    lng: -121.900349,
+    lat: 37.701687,
+    lng: -121.899179,
     name: 'Dublin/Pleasanton',
-    iconAbbreviation: 'DP'
+    iconAbbreviation: 'DP',
+    platform1Dir: 'End',
+    platform2Dir: 'W'
   },
   DELN: {
-    lat: 37.925596,
-    lng: -122.317207,
+    lat: 37.925086,
+    lng: -122.316794,
     name: 'El Cerrito del Norte',
-    iconAbbreviation: 'DN'
+    iconAbbreviation: 'DN',
+    platform1Dir: 'NW',
+    platform2Dir: 'SE',
   },
   PLZA: {
-    lat: 37.903013,
-    lng: -122.299258,
+    lat: 37.902632,
+    lng: -122.298904,
     name: 'El Cerrito Plaza',
-    iconAbbreviation: 'EC'
+    iconAbbreviation: 'EC',
+    platform1Dir: 'NW',
+    platform2Dir: 'SE',
   },
   EMBR: {
     lat: 37.793011,
     lng: -122.396815,
     name: 'Embarcadero',
-    iconAbbreviation: 'E'
+    iconAbbreviation: 'E',
+    platform1Dir: 'SW',
+    platform2Dir: 'NE'
   },
   FRMT: {
     lat: 37.557315,
     lng: -121.976395,
     name: 'Fremont',
-    iconAbbreviation: 'F'
+    iconAbbreviation: 'F',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   FTVL: {
     lat: 37.774539,
     lng: -122.224317,
     name: 'Fruitvale',
-    iconAbbreviation: 'FV'
+    iconAbbreviation: 'FV',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   GLEN: {
     lat: 37.732893,
     lng: -122.434087,
     name: 'Glen Park',
-    iconAbbreviation: 'GP'
+    iconAbbreviation: 'GP',
+    platform1Dir: 'SW',
+    platform2Dir: 'NE'
   },
   HAYW: {
-    lat: 37.670331,
-    lng: -122.088017,
+    lat: 37.669723,
+    lng: -122.087018,
     name: 'Hayward',
-    iconAbbreviation: 'H'
+    iconAbbreviation: 'H',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   LAFY: {
-    lat: 37.893338,
-    lng: -122.123809,
+    lat: 37.893176,
+    lng: -122.124630,
     name: 'Lafayette',
-    iconAbbreviation: 'L'
+    iconAbbreviation: 'L',
+    platform1Dir: 'E',
+    platform2Dir: 'W'
   },
   LAKE: {
-    lat: 37.797568,
-    lng: -122.265344,
+    lat: 37.797027,
+    lng: -122.265180,
     name: 'Lake Merritt',
-    iconAbbreviation: 'LM'
+    iconAbbreviation: 'LM',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   MCAR: {
-    lat: 37.828391,
-    lng: -122.267168,
+    lat: 37.829065,
+    lng: -122.267040,
     name: 'MacArthur',
-    iconAbbreviation: 'MA'
+    iconAbbreviation: 'MA',
+    platform1Dir: 'N',
+    platform2Dir: 'S',
+    platform3Dir: 'NE',
+    platform4Dir: 'S'
   },
   MLBR: {
     lat: 37.600546,
     lng: -122.386408,
     name: 'Millbrae',
-    iconAbbreviation: 'M'
+    iconAbbreviation: 'M',
+    platform1Dir: 'End',
+    platform2Dir: 'End',
+    platform3Dir: 'NW'
   },
   MLPT: {
     lat: 37.4099929,
     lng: -121.890849,
     name: 'Milpitas',
-    iconAbbreviation: 'MP'
+    iconAbbreviation: 'MP',
+    platform1Dir: 'S',
+    platform2Dir: 'N'
   },
   MONT: {
     lat: 37.789298,
     lng: -122.401471,
     name: 'Montgomery',
-    iconAbbreviation: 'MO'
+    iconAbbreviation: 'MO',
+    platform1Dir: 'SW',
+    platform2Dir: 'NE'
   },
   NBRK: {
     lat: 37.873951,
     lng: -122.283862,
     name: 'North Berkeley',
-    iconAbbreviation: 'NB'
+    iconAbbreviation: 'NB',
+    platform1Dir: 'NW',
+    platform2Dir: 'SE',
   },
   NCON: {
-    lat: 38.002613,
-    lng: -122.025061,
+    lat: 38.003193,
+    lng: -122.024653,
     name: 'North Concord',
-    iconAbbreviation: 'NC'
+    iconAbbreviation: 'NC',
+    platform1Dir: 'NE',
+    platform2Dir: 'SW'
   },
   ORIN: {
     lat: 37.878232,
     lng: -122.183719,
     name: 'Orinda',
-    iconAbbreviation: 'O'
+    iconAbbreviation: 'O',
+    platform1Dir: 'NE',
+    platform2Dir: 'SW'
   },
   PHIL: {
-    lat: 37.927739,
-    lng: -122.056818,
+    lat: 37.928468,
+    lng: -122.056012,
     name: 'Pleasant Hill/Contra Costa Centre',
-    iconAbbreviation: 'PH'
+    iconAbbreviation: 'PH',
+    platform1Dir: 'NE',
+    platform2Dir: 'SW'
   },
   POWL: {
-    lat: 37.784957,
-    lng: -122.406986,
+    lat: 37.784471,
+    lng: -122.407974,
     name: 'Powell St.',
-    iconAbbreviation: 'PO'
+    iconAbbreviation: 'PO',
+    platform1Dir: 'SW',
+    platform2Dir: 'NE'
   },
   ROCK: {
-    lat: 37.844079,
-    lng: -122.252641,
+    lat: 37.844702,
+    lng: -122.251371,
     name: 'Rockridge',
-    iconAbbreviation: 'RO'
+    iconAbbreviation: 'RO',
+    platform1Dir: 'NE',
+    platform2Dir: 'SW'
   },
   SBRN: {
-    lat: 37.637029,
-    lng: -122.415934,
+    lat: 37.637761,
+    lng: -122.416287,
     name: 'San Bruno',
-    iconAbbreviation: 'SB'
+    iconAbbreviation: 'SB',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   SANL: {
-    lat: 37.722485,
-    lng: -122.161360,
+    lat: 37.721947,
+    lng: -122.160844,
     name: 'San Leandro',
-    iconAbbreviation: 'SL'
+    iconAbbreviation: 'SL',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   SFIA: {
     lat: 37.615854,
     lng: -122.392502,
     name: 'SF Airport',
-    iconAbbreviation: 'SFO'
+    iconAbbreviation: 'SFO',
+    platform1Dir: 'W',
+    platform2Dir: 'W'
   },
   SHAY: {
-    lat: 37.634757,
-    lng: -122.057569,
+    lat: 37.634375,
+    lng: -122.057189,
     name: 'South Hayward',
-    iconAbbreviation: 'SH'
+    iconAbbreviation: 'SH',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   SSAN: {
     lat: 37.664318,
     lng: -122.444000,
     name: 'South San Francisco',
-    iconAbbreviation: 'SS'
+    iconAbbreviation: 'SS',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   UCTY: {
-    lat: 37.591209,
-    lng: -122.017851,
+    lat: 37.590630,
+    lng: -122.017388,
     name: 'Union City',
-    iconAbbreviation: 'UC'
+    iconAbbreviation: 'UC',
+    platform1Dir: 'SE',
+    platform2Dir: 'NW'
   },
   WCRK: {
-    lat: 37.904581,
-    lng: -122.068276,
+    lat: 37.905522,
+    lng: -122.067527,
     name: 'Walnut Creek',
-    iconAbbreviation: 'WC'
+    iconAbbreviation: 'WC',
+    platform1Dir: 'NE',
+    platform2Dir: 'SW'
   },
   WOAK: {
-    lat: 37.804660,
-    lng: -122.294590,
+    lat: 37.804872,
+    lng: -122.295140,
     name: 'West Oakland',
-    iconAbbreviation: 'WO'
+    iconAbbreviation: 'WO',
+    platform1Dir: 'W',
+    platform2Dir: 'E'
   },
   PITT: {
-    lat: 38.018742,
-    lng: -121.942105,
+    lat: 38.018914,
+    lng: -121.945154,
     name: 'Pittsburg/Bay Point',
-    iconAbbreviation: 'P'
+    iconAbbreviation: 'P',
+    platform1Dir: 'E',
+    platform2Dir: 'W'
   },
   PCTR: {
     lat: 38.016973,
     lng: -121.889496,
     name: 'Pittsburg Center',
-    iconAbbreviation: 'PC'
+    iconAbbreviation: 'PC',
+    platform1Dir: 'E',
+    platform2Dir: 'W'
   },
   RICH: {
     lat: 37.937164,
     lng: -122.353406,
     name: 'Richmond',
-    iconAbbreviation: 'R'
+    iconAbbreviation: 'R',
+    platform1Dir: 'End',
+    platform2Dir: 'SE'
   },
   WDUB: {
     lat: 37.69976,
     lng: -121.92814,
     name: 'West Dublin/Pleasanton',
-    iconAbbreviation: 'WD'
+    iconAbbreviation: 'WD',
+    platform1Dir: 'E',
+    platform2Dir: 'W'
   },
   WARM: {
     lat: 37.501974,
     lng: -121.939250,
     name: 'Warm Springs',
-    iconAbbreviation: 'WS'
+    iconAbbreviation: 'WS',
+    platform1Dir: 'S',
+    platform2Dir: 'N'
   },
   OAKL: {
     lat: 37.713238,
     lng: -122.212191,
     name: 'Oakland International Airport',
-    iconAbbreviation: 'OA'
+    iconAbbreviation: 'OA',
+    platform1Dir: 'W',
+    platform2Dir: 'E'
   },
 }
+
+// Direction display mapping: abbreviation -> { arrow, label }
+var platformDirections = {
+  'N':   { label: '↑ North' },
+  'S':   { label: '↓ South' },
+  'E':   { label: '→ East' },
+  'W':   { label: '← West' },
+  'NE':  { label: '↗ Northeast' },
+  'NW':  { label: '↖ Northwest' },
+  'SE':  { label: '↘ Southeast' },
+  'SW':  { label: '↙ Southwest' },
+  'End': { label: 'ʘ End of Line' }
+};

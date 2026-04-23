@@ -79,22 +79,38 @@ a:hover {
 
 #map {
   margin: 0 0 0 250px;
-  height: 75%;
 }
 
 .station-icon {
-  border: 1px solid #222222;
-  background-color: #199bd8;
-  border-radius: 4px;
-  overflow: hidden;
-  width: 9px;
-  height: 9px;
-  color: #000000;
-  line-height: 14px;
-  overflow: hidden;
-  border-radius: 8px;
+  width: 13px;
+  height: 13px;
+  background-color: #FFFFFF;
+  background-image: url(../images/bart80.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid #4AA8D8;
+  border-radius: 3px;
+  opacity: 1;
+}
+
+.minute-marker {
+  background: none;
+  border: none;
+}
+
+.minute-marker span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border: 1px solid #0066cc;
+  border-radius: 50%;
   font-size: 7px;
-  text-align: center;
+  font-weight: bold;
+  color: #0066cc;
 }
 
 .train-icon {
@@ -174,6 +190,21 @@ a:hover {
   border-radius: 3px;
 }
 
+.show-eta-btn {
+  /*float: right;*/
+  font-size: 9px;
+  color: #000;
+  background-color: rgba(255, 255, 224, 0.9);
+  padding: 1px 6px;
+  border: 1px solid #000;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.show-eta-btn:hover {
+  background-color: rgba(255, 255, 200, 1);
+}
+
 /* LEGEND */
 
 #legend {
@@ -181,12 +212,20 @@ a:hover {
   font-size: 12px;
   width: 250px;
   position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
   padding: 5px 5px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 #legend ul {
   padding: 2px;
   margin: 0;
+  flex-shrink: 0;
 }
 
 #legend ul li {
@@ -194,6 +233,23 @@ a:hover {
   float: left;
   clear: both;
   padding: 3px 2px;
+}
+
+#legend ul li.route-filter {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 3px 4px;
+  transition: background-color 0.2s ease;
+}
+
+#legend ul li.route-filter:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#legend ul li.route-filter.active {
+  background-color: rgba(0, 102, 204, 0.2);
+  border: 1px solid rgba(0, 102, 204, 0.4);
+  padding: 2px 3px;
 }
 
 #legend .station-icon {
@@ -213,6 +269,7 @@ a:hover {
 #status {
   clear: both;
   padding: 15px 5px;
+  flex-shrink: 0;
 }
 
 #last_updated {
@@ -225,6 +282,50 @@ a:hover {
 
 #development {
   visibility: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+#debugOutput {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding: 5px;
+  font-size: 10px;
+  font-family: monospace;
+  background-color: #f5f5f5;
+  white-space: nowrap;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -o-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+
+#data-controls {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+#data-controls select {
+  font-size: 9px;
+  padding: 2px 6px;
+  background-color: #f5f5f5;
+  border: 1px solid #999;
+  border-radius: 2px;
+  cursor: pointer;
+  opacity: 0.1;
+}
+
+#data-controls select:hover {
+  background-color: #e5e5e5;
+  opacity: 0.8;
 }
 
 #disclaimer {

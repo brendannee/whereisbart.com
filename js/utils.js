@@ -27,3 +27,19 @@ function minsToTime(minutes) {
   var mins = futureTime.getMinutes();
   return (hours < 10 ? '0' : '') + hours + ':' + (mins < 10 ? '0' : '') + mins;
 }
+
+// Clamp a value between min and max
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+// Get timestamp in format YYYYMMDD_HHMMSS
+function getFileNameTimestamp(now) {
+  var timestamp = now.getFullYear() +
+    String(now.getMonth() + 1).padStart(2, '0') +
+    String(now.getDate()).padStart(2, '0') + '_' +
+    String(now.getHours()).padStart(2, '0') +
+    String(now.getMinutes()).padStart(2, '0') +
+    String(now.getSeconds()).padStart(2, '0');
+  return timestamp;
+}

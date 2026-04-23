@@ -23,19 +23,19 @@
         <ul>
           <li>
             <div class="station-icon" onclick="developmentMode()"></div><span class="legendname">BART Station</span></li>
-          <li>
+          <li class="route-filter" data-color="RED" onclick="toggleRouteFilter('RED')">
             <div class="train-icon train-red-rich">R </div>
             <div class="train-icon train-red-sfo">SFO </div><span class="legendname">Richmond ⇄ Millbrae - SFO</span></li>
-          <li>
+          <li class="route-filter" data-color="GREEN" onclick="toggleRouteFilter('GREEN')">
             <div class="train-icon train-green-warm">B</div>
             <div class="train-icon train-green-daly">DC</div><span class="legendname">Berryessa ⇄ Daly City</span></li>
-          <li>
+          <li class="route-filter" data-color="YELLOW" onclick="toggleRouteFilter('YELLOW')">
             <div class="train-icon train-yellow-antc">A </div>
             <div class="train-icon train-yellow-sfo">SFO </div><span class="legendname">Antioch ⇄ SFO</span></li>
-          <li>
+          <li class="route-filter" data-color="BLUE" onclick="toggleRouteFilter('BLUE')">
             <div class="train-icon train-blue-dubl">DP</div>
             <div class="train-icon train-blue-daly">DC</div><span class="legendname">Dublin / Pleasanton ⇄ Daly City</span></li>
-          <li>
+          <li class="route-filter" data-color="ORANGE" onclick="toggleRouteFilter('ORANGE')">
             <div class="train-icon train-orange-warm">B</div>
             <div class="train-icon train-orange-rich">R </div><span class="legendname">Berryessa ⇄ Richmond</span></li>
         </ul>
@@ -44,7 +44,16 @@
           <div id="disclaimer">* Note that this map displays estimated train locations based off of <a href="https://bart.gov/schedules/developers/etas.aspx">real time info provided by BART</a></div>
         </div>
         <div id="development">
-          <!--input type="checkbox" id="refresh" name="refresh" checked /><label for="refresh">Auto Refresh</label-->
+          <div id="data-controls">
+            <select id="debug-menu" onchange="handleDebugMenuChange(this)">
+              <option value="">...</option>
+              <option value="save">Save</option>
+              <option value="load">Load</option>
+              <option value="filter">Filter</option>
+              <option value="clear">Clear</option>
+              <option value="track">Track</option>
+            </select>
+          </div>
           <div id="debugOutput"></div>
         </div>
       </div>
@@ -68,6 +77,7 @@
   <script src="js/routes.js"></script>
   <script src="js/route-path.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/development.js"></script>
   <script src="js/main.js"></script>
 
   <script>
